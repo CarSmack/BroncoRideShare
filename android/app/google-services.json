@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "145310067265",
+    "firebase_url": "https://broncorideshare.firebaseio.com",
+    "project_id": "broncorideshare",
+    "storage_bucket": "broncorideshare.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:145310067265:android:bc10a7a97eef18fb3eb4c0",
+        "android_client_info": {
+          "package_name": "com.sophadethrithya.broncorideshare"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "145310067265-ia8hvghs677k1i2kiqnv23vrua4t4ca7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_ovD1uK1MUWB7NPN9PQcbIGaSyj10auU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "145310067265-ia8hvghs677k1i2kiqnv23vrua4t4ca7.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "145310067265-lh0nnai69hhsqcech8rjn91pq2d437sh.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.sophadethrithya.broncorideshare",
+                "app_store_id": "6666168"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
