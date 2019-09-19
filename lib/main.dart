@@ -1,8 +1,14 @@
+import 'package:broncorideshare/introPage.dart';
 import 'package:flutter/material.dart';
+import 'dart:async';
 void main() => runApp(MyApp());
-
+var routes = <String, WidgetBuilder>{
+  "/intro": (BuildContext context) => IntroScreen(),
+};
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
+
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -14,6 +20,7 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       home: WelcomeScreen(),
+      routes: routes,
     );
   }
 }
@@ -23,6 +30,13 @@ class WelcomeScreen extends StatefulWidget {
 }
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Timer(Duration(seconds: 5), ()=> Navigator.pushNamed(context, "/intro"));
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
