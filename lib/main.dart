@@ -1,6 +1,7 @@
-import 'package:broncorideshare/introPage.dart';
+import 'package:broncorideshare/pages/introPage.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
+
 void main() => runApp(MyApp());
 var routes = <String, WidgetBuilder>{
   "/intro": (BuildContext context) => IntroScreen(),
@@ -92,6 +93,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     )
                   ],
                 ),
+
               )
 
             ],

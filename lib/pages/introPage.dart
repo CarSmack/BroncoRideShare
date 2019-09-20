@@ -1,8 +1,8 @@
 
 import 'package:flutter/material.dart';
 
-import 'package:broncorideshare/Walkthrough.dart';
-
+import 'package:broncorideshare/utils/Walkthrough.dart';
+import 'package:broncorideshare/pages/authenPage.dart';
 class IntroScreen extends StatefulWidget {
   @override
   IntroScreenState createState() {
@@ -43,24 +43,24 @@ class IntroScreenState extends State<IntroScreen> {
             child: PageView(
               children: <Widget>[
                 Walkthrough(
-                  title: "WELCOME",
-                  content: "Flutkart is Premium Online Shopping\n Platform for Everyone",
-                  imageIcon: Icons.mobile_screen_share,
+                  title: "Welcome",
+                  content: "Bronco RideShare is made for Only Cal Poly Pomona students",
+                  imageIcon: Icons.airport_shuttle,
                 ),
                 Walkthrough(
-                  title: "DISCOVER PRODUCT",
-                  content: "Search Latest and Featured Product\n With Best Price",
+                  title: "Search and Commute Safe",
+                  content: "Commute More Safe With The Student Who live near you",
                   imageIcon: Icons.search,
                 ),
                 Walkthrough(
-                  title:"ADD TO CART",
-                  content: "Add to Cart All Product You need\n And Checkout the Order",
-                  imageIcon: Icons.shopping_cart,
+                  title:"Make Friends and Ride",
+                  content: "chatroom to communicate one another in a safe environment",
+                  imageIcon: Icons.verified_user,
                 ),
                 Walkthrough(
-                  title: "VERIFY AND RECEIVE",
-                  content:  "We Will Verify Your Order\n Pay the bill and Receive the Product",
-                  imageIcon: Icons.verified_user,
+                  title: "Rate & Reward",
+                  content:  "Reward the Driver and Rate the Driver for safer community ",
+                  imageIcon: Icons.rate_review,
                 ),
               ],
               controller: controller,
@@ -80,7 +80,7 @@ class IntroScreenState extends State<IntroScreen> {
                           fontWeight: FontWeight.bold,
                           fontSize: 16.0)),
                   onPressed: () =>
-                  lastPage ? null : Navigator.pushNamed(context, '/home'),
+                  lastPage ? null : Navigator.push(context, MaterialPageRoute(builder: (context)=> authenticationPage())),
                 ),
                 FlatButton(
                   child: Text(lastPage ? "GOT IT" : "NEXT",
@@ -89,7 +89,8 @@ class IntroScreenState extends State<IntroScreen> {
                           fontWeight: FontWeight.bold,
                           fontSize: 16.0)),
                   onPressed: () => lastPage
-                      ? Navigator.pushNamed(context, '/intro')
+//                      ? Navigator.pushNamed(context, '/authen')
+                      ? Navigator.push(context, MaterialPageRoute(builder: (context)=> authenticationPage()))
                       : controller.nextPage(
                       duration: Duration(milliseconds: 300),
                       curve: Curves.easeIn),
