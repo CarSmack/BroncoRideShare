@@ -1,7 +1,7 @@
+import 'package:broncorideshare/pages/authenPage.dart';
 import 'package:broncorideshare/pages/introPage.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
-
 void main() => runApp(MyApp());
 var routes = <String, WidgetBuilder>{
   "/intro": (BuildContext context) => IntroScreen(),
@@ -20,7 +20,8 @@ class MyApp extends StatelessWidget {
         accentColor: Colors.yellowAccent,
       ),
       debugShowCheckedModeBanner: false,
-      home: WelcomeScreen(),
+//      home: WelcomeScreen(),
+      home: authenticationPage(),
       routes: routes,
     );
   }

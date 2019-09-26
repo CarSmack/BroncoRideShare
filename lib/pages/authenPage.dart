@@ -1,13 +1,17 @@
+import 'package:broncorideshare/pages/singUp.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:broncorideshare/Widgets/FormCard.dart';
+
 class authenticationPage extends StatefulWidget {
+
   @override
   _authenticationPageState createState() => _authenticationPageState();
 }
 
 class _authenticationPageState extends State<authenticationPage> {
   bool _isSelected = false;
+
   void _radio() {
     setState(() {
       _isSelected = !_isSelected;
@@ -39,6 +43,7 @@ class _authenticationPageState extends State<authenticationPage> {
       color: Colors.black26.withOpacity(.2),
     ),
   );
+  final _formfieldKey = GlobalKey<FormFieldState>();
   @override
   Widget build(BuildContext context) {
     ScreenUtil.instance = ScreenUtil.getInstance()..init(context);
@@ -85,7 +90,7 @@ class _authenticationPageState extends State<authenticationPage> {
                   SizedBox(
                     height: ScreenUtil.getInstance().setHeight(180),
                   ),
-                  FormCard(),
+                  FormCard(_formfieldKey),
                   SizedBox(height: ScreenUtil.getInstance().setHeight(40)),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -126,7 +131,12 @@ class _authenticationPageState extends State<authenticationPage> {
                           child: Material(
                             color: Colors.transparent,
                             child: InkWell(
-                              onTap: () {},
+                              onTap: () {
+                                if (_formfieldKey.currentState.validate()) {
+                                  print(FormCard(_formfieldKey).formfieldkey);
+                                }
+
+                              },
                               child: Center(
                                 child: Text("SIGNIN",
                                     style: TextStyle(
@@ -153,7 +163,9 @@ class _authenticationPageState extends State<authenticationPage> {
                         style: TextStyle(fontFamily: "Poppins-Medium"),
                       ),
                       InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=> signup()));
+                        },
                         child: Text("SignUp",
                             style: TextStyle(
                                 color: Color(0xFF5d74e3),
@@ -170,5 +182,4 @@ class _authenticationPageState extends State<authenticationPage> {
     );
   }
 }
-
 

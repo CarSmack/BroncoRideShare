@@ -2,7 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class FormCard extends StatelessWidget {
+class FormCard extends StatefulWidget {
+  // dynamic was use rather than final to set a parameter for Formcart to grab Formfieldstate to implement validate() whenever call the Class
+  dynamic formfieldkey = GlobalKey<FormFieldState>();
+
+  //Constructor-----------
+  FormCard(this.formfieldkey);
+  //this is made when Formcard does not need to return formfieldstate
+  FormCard.deFault(); //  FormCard(formfieldkey)
+  // --------------
+
+  @override
+  _FormCardState createState() => _FormCardState();
+}
+
+class _FormCardState extends State<FormCard> {
+//    final _formKey = GlobalKey<FormFieldState>();
+
+
   @override
   Widget build(BuildContext context) {
     return new Container(
@@ -39,10 +56,10 @@ class FormCard extends StatelessWidget {
                     fontFamily: "Poppins-Medium",
                     fontSize: ScreenUtil.getInstance().setSp(26))),
             TextFormField(
+              key:widget.formfieldkey ,
               validator: (String value) {
                 return value.contains('@cpp.edu') ? null : 'Please use cpp email for Login';
               },
-              autovalidate: true,
               keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
                   hintText: "Billy@cpp.edu",
