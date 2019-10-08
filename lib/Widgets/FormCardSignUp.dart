@@ -1,26 +1,31 @@
+import 'package:broncorideshare/pages/singUp.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:broncorideshare/utils/register.dart';
 
-class FormCard extends StatefulWidget {
+import 'package:firebase_auth/firebase_auth.dart';
+
+class FormCardSignup extends StatefulWidget {
   // dynamic was use rather than final to set a parameter for Formcart to grab Formfieldstate to implement validate() whenever call the Class
-  dynamic formfieldkey = GlobalKey<FormFieldState>();
-  String _email,_password;
+  dynamic keyPassword = GlobalKey<FormFieldState>();
+  dynamic keyEmail = GlobalKey<FormFieldState>();
+   String _email, _password ;
   //Constructor-----------
-  FormCard(this.formfieldkey);
+  FormCardSignup(this.keyEmail,this.keyPassword);
   //this is made when Formcard does not need to return formfieldstate
-  FormCard.register(this._email,this._password);
-   //  FormCard(formfieldkey)
-  // --------------
+
+
+
+
+
 
   @override
-  _FormCardState createState() => _FormCardState();
+  _FormCardSignupState createState() => _FormCardSignupState();
 }
 
-class _FormCardState extends State<FormCard> {
 
-
+class _FormCardSignupState extends State<FormCardSignup> {
 
   @override
   Widget build(BuildContext context) {
@@ -58,11 +63,16 @@ class _FormCardState extends State<FormCard> {
                     fontFamily: "Poppins-Medium",
                     fontSize: ScreenUtil.getInstance().setSp(26))),
             TextFormField(
-              key:widget.formfieldkey ,
+              key: widget.keyEmail,
               validator: (String value) {
-                return value.contains('@cpp.edu') ? null : 'Please use cpp email for Login';
+                return value.contains('@cpp.edu')
+                    ? null
+                    : 'Please use cpp email for Login';
               },
-              onSaved: (value) => widget._email = value.trim(),
+              onSaved: (String value) {
+//                email = value;
+                  widget._email = value;
+              },
               keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
                   hintText: "Billy@cpp.edu",
@@ -76,31 +86,39 @@ class _FormCardState extends State<FormCard> {
                     fontFamily: "Poppins-Medium",
                     fontSize: ScreenUtil.getInstance().setSp(26))),
             TextFormField(
+              key: widget.keyPassword,
               obscureText: true,
               keyboardType: TextInputType.visiblePassword,
-              validator: (String value){
-                return value.length > 6 ? null : 'Password should be more than 6 character';
+              validator: (String value) {
+                return value.length > 6
+                    ? null
+                    : 'Password should be more than 6 character';
               },
-              onSaved: (value) => widget._password = value.trim(),
+              onSaved: (String value) {
+
+                 widget._password = value;
+//                    widget.setPass(value);
+
+              },
               decoration: InputDecoration(
                   hintText: "Password",
                   hintStyle: TextStyle(color: Colors.grey, fontSize: 12.0)),
             ),
-            SizedBox(
-              height: ScreenUtil.getInstance().setHeight(35),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                Text(
-                  "Forgot Password?",
-                  style: TextStyle(
-                      color: Colors.blue,
-                      fontFamily: "Poppins-Medium",
-                      fontSize: ScreenUtil.getInstance().setSp(28)),
-                )
-              ],
-            )
+//            SizedBox(
+//              height: ScreenUtil.getInstance().setHeight(35),
+//            ),
+//            Row(
+//              mainAxisAlignment: MainAxisAlignment.end,
+//              children: <Widget>[
+//                Text(
+//                  "Forgot Password?",
+//                  style: TextStyle(
+//                      color: Colors.blue,
+//                      fontFamily: "Poppins-Medium",
+//                      fontSize: ScreenUtil.getInstance().setSp(28)),
+//                )
+//              ],
+//            )
           ],
         ),
       ),

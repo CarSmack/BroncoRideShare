@@ -11,7 +11,7 @@ class authenticationPage extends StatefulWidget {
 
 class _authenticationPageState extends State<authenticationPage> {
   bool _isSelected = false;
-
+  String _email,_password;
   void _radio() {
     setState(() {
       _isSelected = !_isSelected;
@@ -132,9 +132,7 @@ class _authenticationPageState extends State<authenticationPage> {
                             color: Colors.transparent,
                             child: InkWell(
                               onTap: () {
-                                if (_formfieldKey.currentState.validate()) {
-                                  print(FormCard(_formfieldKey).formfieldkey);
-                                }
+                                _formfieldKey.currentState.validate();
 
                               },
                               child: Center(

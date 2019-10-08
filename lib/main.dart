@@ -1,9 +1,9 @@
-import 'package:broncorideshare/firebase123.dart';
 import 'package:broncorideshare/pages/authenPage.dart';
 import 'package:broncorideshare/pages/introPage.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
-//void main() => runApp(firebaseexample());
+import 'package:broncorideshare/testing.dart';
+
 void main() => runApp(MyApp());
 
 var routes = <String, WidgetBuilder>{
@@ -24,8 +24,8 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
 //      home: WelcomeScreen(),
-//      home: authenticationPage(),
-        home: firebaseexample(),
+      home: authenticationPage(),
+//        home: WelcomeScreen(),
       routes: routes,
     );
   }
@@ -41,7 +41,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Timer(Duration(seconds: 5), ()=> Navigator.pushNamed(context, "/intro"));
+    Timer(Duration(seconds: 2), ()=> Navigator.pushNamed(context, "/intro"));
   }
   @override
   Widget build(BuildContext context) {

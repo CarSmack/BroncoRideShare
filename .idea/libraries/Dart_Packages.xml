@@ -75,7 +75,7 @@
         <entry key="firebase_auth">
           <value>
             <list>
-              <option value="$PROJECT_DIR$/../Flutter Environment/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_auth-0.11.1+12/lib" />
+              <option value="$PROJECT_DIR$/../Flutter Environment/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_auth-0.14.0+5/lib" />
             </list>
           </value>
         </entry>
@@ -246,7 +246,7 @@
       <root url="file://$PROJECT_DIR$/../Flutter Environment/flutter/.pub-cache/hosted/pub.dartlang.org/convert-2.1.1/lib" />
       <root url="file://$PROJECT_DIR$/../Flutter Environment/flutter/.pub-cache/hosted/pub.dartlang.org/crypto-2.1.2/lib" />
       <root url="file://$PROJECT_DIR$/../Flutter Environment/flutter/.pub-cache/hosted/pub.dartlang.org/cupertino_icons-0.1.2/lib" />
-      <root url="file://$PROJECT_DIR$/../Flutter Environment/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_auth-0.11.1+12/lib" />
+      <root url="file://$PROJECT_DIR$/../Flutter Environment/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_auth-0.14.0+5/lib" />
       <root url="file://$PROJECT_DIR$/../Flutter Environment/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_core-0.4.0+9/lib" />
       <root url="file://$PROJECT_DIR$/../Flutter Environment/flutter/.pub-cache/hosted/pub.dartlang.org/flat_icons_flutter-1.0.2/lib" />
       <root url="file://$PROJECT_DIR$/../Flutter Environment/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_screenutil-0.5.3/lib" />
