@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:broncorideshare/utils/register.dart';
+import 'package:broncorideshare/utils/authenticate.dart';
 
 class FormCard extends StatefulWidget {
   // dynamic was use rather than final to set a parameter for Formcart to grab Formfieldstate to implement validate() whenever call the Class
-  dynamic formfieldkey = GlobalKey<FormFieldState>();
+  dynamic formfieldkey_email = GlobalKey<FormFieldState>();
+  dynamic formfieldkey_password = GlobalKey<FormFieldState>();
   String _email,_password;
   //Constructor-----------
-  FormCard(this.formfieldkey);
+  FormCard(this.formfieldkey_email,this.formfieldkey_password);
   //this is made when Formcard does not need to return formfieldstate
   FormCard.register(this._email,this._password);
    //  FormCard(formfieldkey)
@@ -58,7 +59,7 @@ class _FormCardState extends State<FormCard> {
                     fontFamily: "Poppins-Medium",
                     fontSize: ScreenUtil.getInstance().setSp(26))),
             TextFormField(
-              key:widget.formfieldkey ,
+              key:widget.formfieldkey_email ,
               validator: (String value) {
                 return value.contains('@cpp.edu') ? null : 'Please use cpp email for Login';
               },
@@ -76,6 +77,7 @@ class _FormCardState extends State<FormCard> {
                     fontFamily: "Poppins-Medium",
                     fontSize: ScreenUtil.getInstance().setSp(26))),
             TextFormField(
+              key: widget.formfieldkey_password,
               obscureText: true,
               keyboardType: TextInputType.visiblePassword,
               validator: (String value){

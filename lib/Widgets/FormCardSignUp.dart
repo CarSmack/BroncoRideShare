@@ -2,7 +2,7 @@ import 'package:broncorideshare/pages/singUp.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:broncorideshare/utils/register.dart';
+import 'package:broncorideshare/utils/authenticate.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 

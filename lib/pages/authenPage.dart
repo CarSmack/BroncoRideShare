@@ -1,9 +1,13 @@
 import 'package:broncorideshare/pages/singUp.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:broncorideshare/Widgets/FormCard.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
+//enum authenProblem{ERROR_USER_NOT_FOUND,ERROR_WRONG_PASSWORD};
 class authenticationPage extends StatefulWidget {
+
 
   @override
   _authenticationPageState createState() => _authenticationPageState();
@@ -17,6 +21,44 @@ class _authenticationPageState extends State<authenticationPage> {
       _isSelected = !_isSelected;
     });
   }
+  void _showCupertinoDialog(dynamic error) {
+    var text1,text2;
+    var authenerror = {
+      'user_error': 'User not found',
+      'userErrorMessage': 'Please input a correct email address',
+      'password_error': 'Incorrect Password',
+      'passwordErrorMessage': 'Please reenter your password again'
+
+    };
+    switch(error){
+      case "ERROR_USER_NOT_FOUND":
+        text1 = authenerror['user_error'];
+        text2 = authenerror['userErrorMessage'];
+        break;
+      case "ERROR_WRONG_PASSWORD":
+        text1 = authenerror['password_error'];
+        text2 = authenerror['passwordErrorMessage'];
+        break;
+
+    }
+    assert(text1 != null && text2 != null);
+    showDialog(
+        context: context,
+        builder: (context) {
+          return CupertinoAlertDialog(
+            title: Text(text1),
+            content: Text(text2),
+            actions: <Widget>[
+              FlatButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text('Close')),
+            ],
+          );
+        });
+  }
+
 
   Widget radioButton(bool isSelected) => Container(
     width: 16.0,
@@ -43,13 +85,16 @@ class _authenticationPageState extends State<authenticationPage> {
       color: Colors.black26.withOpacity(.2),
     ),
   );
-  final _formfieldKey = GlobalKey<FormFieldState>();
+  final _formfieldKey_email = GlobalKey<FormFieldState>();
+  final _formfieldKey_password = GlobalKey<FormFieldState>();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     ScreenUtil.instance = ScreenUtil.getInstance()..init(context);
     ScreenUtil.instance =
         ScreenUtil(width: 750, height: 1334, allowFontScaling: true);
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: Colors.white,
       resizeToAvoidBottomPadding: true,
       body:Stack(
@@ -90,7 +135,7 @@ class _authenticationPageState extends State<authenticationPage> {
                   SizedBox(
                     height: ScreenUtil.getInstance().setHeight(180),
                   ),
-                  FormCard(_formfieldKey),
+                  FormCard(_formfieldKey_email,_formfieldKey_password),
                   SizedBox(height: ScreenUtil.getInstance().setHeight(40)),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -131,8 +176,50 @@ class _authenticationPageState extends State<authenticationPage> {
                           child: Material(
                             color: Colors.transparent,
                             child: InkWell(
-                              onTap: () {
-                                _formfieldKey.currentState.validate();
+                              onTap: () async {
+                                _formfieldKey_email.currentState.validate();
+                                _formfieldKey_password.currentState.validate();
+                                FirebaseAuth _auth =  FirebaseAuth.instance;
+                                Future<AuthResult> result =  _auth.signInWithEmailAndPassword(email: _formfieldKey_email.currentState.value, password: _formfieldKey_password.currentState.value)
+                                .catchError((onError) {
+//                                  switch(onError.code)
+//                                  {
+//                                    case "ERROR_USER_NOT_FOUND":
+//                                      showDialog(
+//                                          context: context,
+//                                          builder: (context) {
+//                                            return CupertinoAlertDialog(
+//                                              title: Text('User Not Found'),
+//                                              content: Text('Please input the correct email address!'),
+//                                              actions: <Widget>[
+//                                                FlatButton(
+//                                                    onPressed: () {
+//                                                      Navigator.pop(context);
+//                                                    },
+//                                                    child: Text('Close')),
+////
+//                                              ],
+//                                            );
+//                                          });
+//                                  }
+                                _showCupertinoDialog(onError.code);
+
+//                                  if (onError.code == "ERROR_USER_NOT_FOUND" )
+//                                    print("in here now : ${onError}");
+                                });
+//                                assert(result != null);
+                                _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text('Login Success'),behavior: SnackBarBehavior.floating,));
+
+
+
+
+
+//                                result.catchError(() => print('error was catched'));
+
+//                                print('result : ${result.catchError((onError) => print('this is onError ${onError.toString()}'))}');
+
+//                                showDialog(context: null)
+
 
                               },
                               child: Center(

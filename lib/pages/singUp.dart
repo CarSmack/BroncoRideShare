@@ -1,5 +1,5 @@
 import 'package:broncorideshare/Widgets/FormCardSignUp.dart';
-import 'package:broncorideshare/utils/register.dart';
+import 'package:broncorideshare/utils/authenticate.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -20,6 +20,7 @@ class _signupState extends State<signup> {
       password: passwords,
     ))
         .user;
+    return user;
   }
   final keyPassword = GlobalKey<FormFieldState>();
   final keyEmail = GlobalKey<FormFieldState>();
@@ -56,8 +57,17 @@ class _signupState extends State<signup> {
                         child: Material(
                           color: Colors.transparent,
                           child: InkWell(
-                            onTap: () {
-                                  _handleRegister(keyEmail.currentState.value.toString().trim(), keyPassword.currentState.value.toString().trim());
+                            onTap: () async{
+                                  FirebaseUser user = await _handleRegister(keyEmail.currentState.value.toString().trim(), keyPassword.currentState.value.toString().trim());
+//                                  FirebaseUser user = await _auth.currentUser();
+//                                  print('user123:    ${user.toString()}');
+                                  assert(user != null);
+                                   user.sendEmailVerification();
+
+
+
+
+
 
                             },
 
