@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
 //      home: WelcomeScreen(),
-      home: googlemap(),
+      home: authenticationPage(),
 //        home: WelcomeScreen(),
       routes: routes,
     );

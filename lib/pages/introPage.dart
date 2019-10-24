@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 
-import 'package:broncorideshare/utils/Walkthrough.dart';
+import 'package:broncorideshare/utils/walkthrough.dart';
 import 'package:broncorideshare/pages/authenPage.dart';
 class IntroScreen extends StatefulWidget {
   @override
