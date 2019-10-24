@@ -1,4 +1,5 @@
 import 'package:broncorideshare/pages/authenPage.dart';
+import 'package:broncorideshare/pages/googlemap.dart';
 import 'package:broncorideshare/pages/introPage.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
 //      home: WelcomeScreen(),
-      home: authenticationPage(),
+      home: googlemap(),
 //        home: WelcomeScreen(),
       routes: routes,
     );

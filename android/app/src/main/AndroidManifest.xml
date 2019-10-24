@@ -10,7 +10,10 @@
         android:name="io.flutter.app.FlutterApplication"
         android:label="broncorideshare"
         android:icon="@mipmap/ic_launcher">
-        <meta-data android:name="com.google.android.geo.API_KEY" android:value="@string/map_api_key"/>
+
+        <meta-data android:name="com.google.android.geo.API_KEY"
+                   android:value="AIzaSyCYXkMtpp0OO_6ZcH_vtoqODCbVVdF6MdE"/>
+
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
