@@ -26,9 +26,6 @@ class _MapState extends State<Map> {
   @override
   Widget build(BuildContext context) {
     final appState = Provider.of<AppState>(context);
-////    final appState = AppState();
-//    AppState appState = new AppState();
-//    appState.initialPosition = LatLng(17.0,32.0);
     print("initial1 ${appState.initialPosition.toString()}");
     return appState.initialPosition == null
         ? Container(
@@ -41,7 +38,7 @@ class _MapState extends State<Map> {
       children: <Widget>[
         GoogleMap(
           initialCameraPosition: CameraPosition(
-              target: /*appState.initialPosition*/LatLng(34.063297, -117.818771), zoom: 10.0),
+              target: appState.initialPosition/*LatLng(34.063297, -117.818771)*/, zoom: 10.0),
           onMapCreated: appState.onCreated,
           myLocationEnabled: true,
           mapType: MapType.normal,

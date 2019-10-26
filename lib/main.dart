@@ -1,4 +1,5 @@
 import 'package:broncorideshare/pages/authenPage.dart';
+import 'package:broncorideshare/pages/decision.dart';
 import 'package:broncorideshare/pages/mainPage.dart';
 import 'package:broncorideshare/pages/introPage.dart';
 import 'package:broncorideshare/utils/testGooglemap.dart';
@@ -21,8 +22,9 @@ void main() {
 var routes = <String, WidgetBuilder>{
   "/intro": (BuildContext context) => IntroScreen(),
 };
-class MyApp extends StatelessWidget {
 
+
+class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +37,7 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
 //      home: WelcomeScreen(),
-      home: mainPage(),
+      home: decision(),
 //        home: WelcomeScreen(),
       routes: routes,
     );
