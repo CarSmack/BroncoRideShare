@@ -1,4 +1,8 @@
-import 'package:broncorideshare/pages/singUp.dart';
+import 'dart:async';
+import 'dart:ffi';
+
+import 'package:broncorideshare/pages/mainPage.dart';
+import 'package:broncorideshare/pages/signUp.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -88,6 +92,24 @@ class _authenticationPageState extends State<authenticationPage> {
   final _formfieldKey_email = GlobalKey<FormFieldState>();
   final _formfieldKey_password = GlobalKey<FormFieldState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+  final FirebaseAuth _auth =  FirebaseAuth.instance;
+  FirebaseUser user;
+
+//  Future<FirebaseUser> _handleSignIn(String email, String password) async {
+//    final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
+//    final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+//    
+//    final emailAuthentication = await _auth.signInWithEmailAndPassword(email: email, password: password);
+//
+//    final AuthCredential credential = GoogleAuthProvider.getCredential(
+//      accessToken: googleAuth.accessToken,
+//      idToken: googleAuth.idToken,
+//    );
+//
+//    final FirebaseUser user = (await _auth.signInWithCredential(credential)).user;
+//    print("signed in " + user.displayName);
+//    return user;
+//  }
   @override
   Widget build(BuildContext context) {
     ScreenUtil.instance = ScreenUtil.getInstance()..init(context);
@@ -177,49 +199,24 @@ class _authenticationPageState extends State<authenticationPage> {
                             color: Colors.transparent,
                             child: InkWell(
                               onTap: () async {
-                                _formfieldKey_email.currentState.validate();
-                                _formfieldKey_password.currentState.validate();
-                                FirebaseAuth _auth =  FirebaseAuth.instance;
-                                Future<AuthResult> result =  _auth.signInWithEmailAndPassword(email: _formfieldKey_email.currentState.value, password: _formfieldKey_password.currentState.value)
-                                .catchError((onError) {
-//                                  switch(onError.code)
-//                                  {
-//                                    case "ERROR_USER_NOT_FOUND":
-//                                      showDialog(
-//                                          context: context,
-//                                          builder: (context) {
-//                                            return CupertinoAlertDialog(
-//                                              title: Text('User Not Found'),
-//                                              content: Text('Please input the correct email address!'),
-//                                              actions: <Widget>[
-//                                                FlatButton(
-//                                                    onPressed: () {
-//                                                      Navigator.pop(context);
-//                                                    },
-//                                                    child: Text('Close')),
-////
-//                                              ],
-//                                            );
-//                                          });
-//                                  }
-                                _showCupertinoDialog(onError.code);
-
-//                                  if (onError.code == "ERROR_USER_NOT_FOUND" )
-//                                    print("in here now : ${onError}");
-                                });
-//                                assert(result != null);
-                                _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text('Login Success'),behavior: SnackBarBehavior.floating,));
+                                if (_formfieldKey_email.currentState.validate() && _formfieldKey_password.currentState.validate()){
+                                  Future<AuthResult> result =  _auth.signInWithEmailAndPassword(email: _formfieldKey_email.currentState.value, password: _formfieldKey_password.currentState.value)
+                                  .then((value) {
+                                    _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text('Login Success'),behavior: SnackBarBehavior.floating,));
+                                    user = value.user;
+                                    Timer _time = new Timer(Duration(seconds: 3), (){
+                                      Navigator.push(context, MaterialPageRoute(builder: (context)=> mainPage()));
 
 
 
+                                    });
 
 
-//                                result.catchError(() => print('error was catched'));
-
-//                                print('result : ${result.catchError((onError) => print('this is onError ${onError.toString()}'))}');
-
-//                                showDialog(context: null)
-
+                                  })
+                                      .catchError((onError) {
+                                    _showCupertinoDialog(onError.code);
+                                  });
+                                }
 
                               },
                               child: Center(

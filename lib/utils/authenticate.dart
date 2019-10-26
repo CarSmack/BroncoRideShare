@@ -8,11 +8,6 @@ class authenticate {
   {
     this.email = email;
     this.password = password;
-//    _handleAuth();
-  }
 
-//
-//  Future<FirebaseUser> _handleAuth() async{
-//    FirebaseUser user = await _auth.currentUser();
-////    if ()
+  }
 }

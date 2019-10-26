@@ -1,17 +1,27 @@
 import 'package:broncorideshare/pages/authenPage.dart';
-import 'package:broncorideshare/pages/googlemap.dart';
+import 'package:broncorideshare/pages/mainPage.dart';
 import 'package:broncorideshare/pages/introPage.dart';
+import 'package:broncorideshare/utils/testGooglemap.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:broncorideshare/testing.dart';
+import 'package:provider/provider.dart';
+import 'package:broncorideshare/utils/app_state.dart';
 
-void main() => runApp(MyApp());
+//void main() => runApp(MyApp());
 
+void main() {
+  //this was add to ensure the data that we waited for are pushed into our app
+  WidgetsFlutterBinding.ensureInitialized();
+  return runApp(MultiProvider(providers: [
+    ChangeNotifierProvider.value(value: AppState(),)
+  ],
+    child: MyApp(),));
+}
 var routes = <String, WidgetBuilder>{
   "/intro": (BuildContext context) => IntroScreen(),
 };
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
 
 
   @override
@@ -25,7 +35,7 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
 //      home: WelcomeScreen(),
-      home: authenticationPage(),
+      home: mainPage(),
 //        home: WelcomeScreen(),
       routes: routes,
     );
@@ -112,3 +122,64 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     );
   }
 }
+
+
+//import 'dart:async';
+//
+//import 'package:flutter/material.dart';
+//import 'package:google_maps_flutter/google_maps_flutter.dart';
+//
+//void main() => runApp(MyApp());
+//
+//class MyApp extends StatelessWidget {
+//  @override
+//  Widget build(BuildContext context) {
+//    return MaterialApp(
+//      title: 'Flutter Google Maps Demo',
+//      home: MapSample(),
+//    );
+//  }
+//}
+//
+//class MapSample extends StatefulWidget {
+//  @override
+//  State<MapSample> createState() => MapSampleState();
+//}
+//
+//class MapSampleState extends State<MapSample> {
+//  Completer<GoogleMapController> _controller = Completer();
+//
+//  static final CameraPosition _kGooglePlex = CameraPosition(
+//    target: LatLng(37.42796133580664, -122.085749655962),
+//    zoom: 14.4746,
+//  );
+//
+//  static final CameraPosition _kLake = CameraPosition(
+//      bearing: 192.8334901395799,
+//      target: LatLng(37.43296265331129, -122.08832357078792),
+//      tilt: 59.440717697143555,
+//      zoom: 19.151926040649414);
+//
+//  @override
+//  Widget build(BuildContext context) {
+//    return new Scaffold(
+//      body: GoogleMap(
+//        mapType: MapType.hybrid,
+//        initialCameraPosition: _kGooglePlex,
+//        onMapCreated: (GoogleMapController controller) {
+//          _controller.complete(controller);
+//        },
+//      ),
+//      floatingActionButton: FloatingActionButton.extended(
+//        onPressed: _goToTheLake,
+//        label: Text('To the lake!'),
+//        icon: Icon(Icons.directions_boat),
+//      ),
+//    );
+//  }
+//
+//  Future<void> _goToTheLake() async {
+//    final GoogleMapController controller = await _controller.future;
+//    controller.animateCamera(CameraUpdate.newCameraPosition(_kLake));
+//  }
+//}

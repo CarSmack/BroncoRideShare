@@ -14,6 +14,10 @@ class signup extends StatefulWidget {
 class _signupState extends State<signup> {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final keyPassword = GlobalKey<FormFieldState>();
+  final keyEmail = GlobalKey<FormFieldState>();
+
+  //This will return FirebaseUser
   Future<FirebaseUser> _handleRegister(emails,passwords) async{
     final FirebaseUser user = (await _auth.createUserWithEmailAndPassword(
       email: emails,
@@ -22,8 +26,9 @@ class _signupState extends State<signup> {
         .user;
     return user;
   }
-  final keyPassword = GlobalKey<FormFieldState>();
-  final keyEmail = GlobalKey<FormFieldState>();
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -58,16 +63,13 @@ class _signupState extends State<signup> {
                           color: Colors.transparent,
                           child: InkWell(
                             onTap: () async{
+                              keyEmail.currentState.validate();
+                              keyPassword.currentState.validate();
                                   FirebaseUser user = await _handleRegister(keyEmail.currentState.value.toString().trim(), keyPassword.currentState.value.toString().trim());
-//                                  FirebaseUser user = await _auth.currentUser();
-//                                  print('user123:    ${user.toString()}');
-                                  assert(user != null);
+//                                  FirebaseUser user1 = await _auth.currentUser();
+//                                  print('user123:    ${user1.toString()}');
+                                    assert(user != null);
                                    user.sendEmailVerification();
-
-
-
-
-
 
                             },
 

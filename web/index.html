@@ -5,6 +5,30 @@
   <title>broncorideshare</title>
 </head>
 <body>
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-app.js"></script>
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+       https://firebase.google.com/docs/web/setup#available-libraries -->
+  <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-analytics.js"></script>
+
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyDoBh7zXbOL5QbOoXiXvcOkeRlgoONMBDI",
+      authDomain: "broncorideshare.firebaseapp.com",
+      databaseURL: "https://broncorideshare.firebaseio.com",
+      projectId: "broncorideshare",
+      storageBucket: "broncorideshare.appspot.com",
+      messagingSenderId: "145310067265",
+      appId: "1:145310067265:web:2cb152f969d81b893eb4c0",
+      measurementId: "G-JKX3F6YLQ4"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+  </script>
   <script src="main.dart.js" type="application/javascript"></script>
+
 </body>
 </html>
