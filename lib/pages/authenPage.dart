@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ffi';
 
 import 'package:broncorideshare/pages/mainPage.dart';
 import 'package:broncorideshare/pages/signUp.dart';
@@ -217,6 +216,7 @@ class _authenticationPageState extends State<authenticationPage> {
                                     _showCupertinoDialog(onError.code);
                                   });
                                 }
+
 
                               },
                               child: Center(
