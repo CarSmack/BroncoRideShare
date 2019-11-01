@@ -307,6 +307,8 @@ packages:
     version: "1.8.0+1"
   petitparser:
     dependency: transitive
+  provider:
+    dependency: "direct main"
     description:
       name: petitparser
       url: "https://pub.dartlang.org"

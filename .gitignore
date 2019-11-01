@@ -70,3 +70,19 @@
 !**/ios/**/default.pbxuser
 !**/ios/**/default.perspectivev3
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
+<<<<<<< HEAD
+.idea/libraries/Dart_Packages.xml
+.idea/BroncoRideshare.iml
+.idea/libraries/Dart_Packages.xml
+.idea/libraries/Dart_SDK.xml
+.idea/libraries/Dart_SDK.xml
+*.xml
+*.xml
+.idea/libraries/Dart_Packages.xml
+=======
+ios/Flutter/flutter_export_environment.sh
+
+#ignores all the xml files which usually contains evironmental paths different for all of us
+#since we have people on macOS, Linux and Windows in the team. 
+*.xml
+>>>>>>> a04ce406e90041c586f3ff655540145848abe1c8
