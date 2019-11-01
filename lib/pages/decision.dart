@@ -7,42 +7,6 @@ class decision extends StatefulWidget {
   _decisionState createState() => _decisionState();
 }
 
-//class _decisionState extends State<decision> {
-//  @override
-//  Widget build(BuildContext context) {
-//    return Container(
-//      child: Center(
-//        child: Column(
-//          mainAxisAlignment: MainAxisAlignment.center,
-//          children: <Widget>[
-//            Column(
-//              crossAxisAlignment: CrossAxisAlignment.stretch,
-//              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//              children: <Widget>[
-//
-//                FormField(
-//
-//
-//                ),
-//                FloatingActionButton.extended(
-////              child: Text("Passenger"),
-//                label: Text("Passenger"),
-//
-//                ),
-//                FloatingActionButton.extended(
-////              child: Text("Driver"),
-//                label: Text("Driver"),
-//                )
-//              ],
-//            ),
-//          ],
-//        ),
-//      ),
-//    );
-//  }
-//}
-
-
 class _decisionState extends State<decision> {
   bool driver;
   final _scaffoldKey = GlobalKey<ScaffoldState>();

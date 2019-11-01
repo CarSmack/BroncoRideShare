@@ -129,16 +129,6 @@ class _MapState extends State<Map> {
             ),
           ),
         ),
-
-//        Positioned(
-//          top: 40,
-//          right: 10,
-//          child: FloatingActionButton(onPressed: _onAddMarkerPressed,
-//          tooltip: "aadd marker",
-//          backgroundColor: black,
-//          child: Icon(Icons.add_location, color: white,),
-//          ),
-//        )
       ],
     );
   }

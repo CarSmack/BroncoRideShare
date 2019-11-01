@@ -79,16 +79,6 @@ class _PassengerState extends State<Passenger> {
             ),
           ),
 
-
-//        Positioned(
-//          top: 40,
-//          right: 10,
-//          child: FloatingActionButton(onPressed: _onAddMarkerPressed,
-//          tooltip: "aadd marker",
-//          backgroundColor: black,
-//          child: Icon(Icons.add_location, color: white,),
-//          ),
-//        )
         ],
       ),
     );

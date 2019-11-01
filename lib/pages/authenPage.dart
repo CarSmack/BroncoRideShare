@@ -88,27 +88,14 @@ class _authenticationPageState extends State<authenticationPage> {
       color: Colors.black26.withOpacity(.2),
     ),
   );
+
+  // --- parameter passing purposes----
   final _formfieldKey_email = GlobalKey<FormFieldState>();
   final _formfieldKey_password = GlobalKey<FormFieldState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final FirebaseAuth _auth =  FirebaseAuth.instance;
   FirebaseUser user;
-
-//  Future<FirebaseUser> _handleSignIn(String email, String password) async {
-//    final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
-//    final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-//    
-//    final emailAuthentication = await _auth.signInWithEmailAndPassword(email: email, password: password);
-//
-//    final AuthCredential credential = GoogleAuthProvider.getCredential(
-//      accessToken: googleAuth.accessToken,
-//      idToken: googleAuth.idToken,
-//    );
-//
-//    final FirebaseUser user = (await _auth.signInWithCredential(credential)).user;
-//    print("signed in " + user.displayName);
-//    return user;
-//  }
+  // ---------------
   @override
   Widget build(BuildContext context) {
     ScreenUtil.instance = ScreenUtil.getInstance()..init(context);
