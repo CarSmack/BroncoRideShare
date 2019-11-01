@@ -26,7 +26,7 @@ class _MapState extends State<Map> {
   @override
   Widget build(BuildContext context) {
     final appState = Provider.of<AppState>(context);
-    print("initial1 ${appState.initialPosition.toString()}");
+    print("Current position ${appState.initialPosition.toString()}");
     return appState.initialPosition == null
         ? Container(
       alignment: Alignment.center,

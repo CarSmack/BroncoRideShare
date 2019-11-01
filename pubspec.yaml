@@ -40,6 +40,7 @@ dependencies:
   geoflutterfire: any
   get_it: ^1.0.3+2
   shared_preferences: ^0.5.3+4
+  url_launcher: ^5.2.5
 
 
 

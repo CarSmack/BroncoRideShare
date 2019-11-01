@@ -14,6 +14,7 @@ import 'package:broncorideshare/utils/app_state.dart';
 void main() {
   //this was add to ensure the data that we waited for are pushed into our app
   WidgetsFlutterBinding.ensureInitialized();
+
   return runApp(MultiProvider(providers: [
     ChangeNotifierProvider.value(value: AppState(),)
   ],
@@ -37,7 +38,7 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
 //      home: WelcomeScreen(),
-      home: decision(),
+      home: authenticationPage(),
 //        home: WelcomeScreen(),
       routes: routes,
     );

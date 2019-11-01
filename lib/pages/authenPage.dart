@@ -28,7 +28,7 @@ class _authenticationPageState extends State<authenticationPage> {
     var text1,text2;
     var authenerror = {
       'user_error': 'User not found',
-      'userErrorMessage': 'Please input a correct email address',
+      'userErrorMessage': 'Please input a correct email address or Your email has not been confirmed.',
       'password_error': 'Incorrect Password',
       'passwordErrorMessage': 'Please reenter your password again'
 
@@ -205,9 +205,6 @@ class _authenticationPageState extends State<authenticationPage> {
                                     user = value.user;
                                     Timer _time = new Timer(Duration(seconds: 3), (){
                                       Navigator.push(context, MaterialPageRoute(builder: (context)=> mainPage()));
-
-
-
                                     });
 
 

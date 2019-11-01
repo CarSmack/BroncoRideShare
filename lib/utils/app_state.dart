@@ -33,7 +33,7 @@ class AppState with ChangeNotifier {
     List<Placemark> placemark = await Geolocator()
         .placemarkFromCoordinates(position.latitude, position.longitude);
     _initialPosition = LatLng(position.latitude, position.longitude);
-    print("initial position is : ${_initialPosition.toString()}");
+//    print("initial position is : ${_initialPosition.toString()}");
     locationController.text = placemark[0].name;
     notifyListeners();
   }
