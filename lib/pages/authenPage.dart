@@ -7,9 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:broncorideshare/Widgets/FormCard.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
+import 'package:firebase/firebase.dart';
 //enum authenProblem{ERROR_USER_NOT_FOUND,ERROR_WRONG_PASSWORD};
 class authenticationPage extends StatefulWidget {
+
 
 
   @override
@@ -17,6 +18,7 @@ class authenticationPage extends StatefulWidget {
 }
 
 class _authenticationPageState extends State<authenticationPage> {
+
   bool _isSelected = false;
   String _email,_password;
   void _radio() {
@@ -93,22 +95,9 @@ class _authenticationPageState extends State<authenticationPage> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final FirebaseAuth _auth =  FirebaseAuth.instance;
   FirebaseUser user;
+  Auth authweb = auth();
 
-//  Future<FirebaseUser> _handleSignIn(String email, String password) async {
-//    final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
-//    final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-//    
-//    final emailAuthentication = await _auth.signInWithEmailAndPassword(email: email, password: password);
-//
-//    final AuthCredential credential = GoogleAuthProvider.getCredential(
-//      accessToken: googleAuth.accessToken,
-//      idToken: googleAuth.idToken,
-//    );
-//
-//    final FirebaseUser user = (await _auth.signInWithCredential(credential)).user;
-//    print("signed in " + user.displayName);
-//    return user;
-//  }
+
   @override
   Widget build(BuildContext context) {
     ScreenUtil.instance = ScreenUtil.getInstance()..init(context);
@@ -197,23 +186,34 @@ class _authenticationPageState extends State<authenticationPage> {
                           child: Material(
                             color: Colors.transparent,
                             child: InkWell(
+                              onDoubleTap: ()=> print("here"),
                               onTap: () async {
+                                print("here");
                                 if (_formfieldKey_email.currentState.validate() && _formfieldKey_password.currentState.validate()){
+
                                   Future<AuthResult> result =  _auth.signInWithEmailAndPassword(email: _formfieldKey_email.currentState.value, password: _formfieldKey_password.currentState.value)
                                   .then((value) {
                                     _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text('Login Success'),behavior: SnackBarBehavior.floating,));
-                                    user = value.user;
+//                                    user = value.user;
                                     Timer _time = new Timer(Duration(seconds: 3), (){
                                       Navigator.push(context, MaterialPageRoute(builder: (context)=> mainPage()));
-
-
-
                                     });
-
 
                                   })
                                       .catchError((onError) {
                                     _showCupertinoDialog(onError.code);
+                                  });
+                                  authweb.signInWithEmailAndPassword(_formfieldKey_email.currentState.value, _formfieldKey_password.currentState.value).then((onValue) {
+                                    _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text("Login Success"), behavior: SnackBarBehavior.floating,));
+                                    Timer _time = new Timer(Duration(seconds: 3), (){
+                                      Navigator.push(context, MaterialPageRoute(builder: (context)=> mainPage()));
+                                    });
+                                  })
+                                  .catchError((onError){
+                                    if(onError.code.toString().substring(5) == "user-not-found")
+                                      _showCupertinoDialog("ERROR_USER_NOT_FOUND");
+                                    else if(onError.code.toString().substring(5) == 'wrong-password')
+                                      _showCupertinoDialog("ERROR_WRONG_PASSWORD");
                                   });
                                 }
 

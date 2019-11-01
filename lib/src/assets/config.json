@@ -1,0 +1,12 @@
+{
+  "_FYI": "https://firebase.google.com/docs/web/setup",
+  "_COPY_TO": "config.json",
+  "API_KEY": "AIzaSyDoBh7zXbOL5QbOoXiXvcOkeRlgoONMBDI",
+  "AUTH_DOMAIN" : "broncorideshare.firebaseapp.com",
+  "DATABASE_URL": "https://broncorideshare.firebaseio.com",
+  "STORAGE_BUCKET": "broncorideshare.appspot.com",
+  "PROJECT_ID": "broncorideshare",
+  "MESSAGING_SENDER_ID": "145310067265",
+  "SERVER_KEY": "TODO",
+  "VAPID_KEY": "TODO",
+}

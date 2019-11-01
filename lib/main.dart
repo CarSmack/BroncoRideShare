@@ -8,10 +8,13 @@ import 'dart:async';
 import 'package:broncorideshare/testing.dart';
 import 'package:provider/provider.dart';
 import 'package:broncorideshare/utils/app_state.dart';
-
+import 'package:firebase/firebase.dart';
 //void main() => runApp(MyApp());
 
-void main() {
+void main() async {
+
+
+
   //this was add to ensure the data that we waited for are pushed into our app
   WidgetsFlutterBinding.ensureInitialized();
   return runApp(MultiProvider(providers: [
@@ -37,7 +40,7 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
 //      home: WelcomeScreen(),
-      home: decision(),
+      home: authenticationPage(),
 //        home: WelcomeScreen(),
       routes: routes,
     );
