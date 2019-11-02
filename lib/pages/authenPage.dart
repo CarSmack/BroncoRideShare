@@ -1,12 +1,15 @@
 import 'dart:async';
 
 import 'package:broncorideshare/pages/mainPage.dart';
+import 'package:broncorideshare/pages/passenger.dart';
 import 'package:broncorideshare/pages/signUp.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:broncorideshare/Widgets/FormCard.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
+import 'package:broncorideshare/users/UserData.dart';
 
 //enum authenProblem{ERROR_USER_NOT_FOUND,ERROR_WRONG_PASSWORD};
 class authenticationPage extends StatefulWidget {
@@ -93,11 +96,14 @@ class _authenticationPageState extends State<authenticationPage> {
   final _formfieldKey_email = GlobalKey<FormFieldState>();
   final _formfieldKey_password = GlobalKey<FormFieldState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  final FirebaseAuth _auth =  FirebaseAuth.instance;
-  FirebaseUser user;
+
+//  final FirebaseAuth _auth =  FirebaseAuth.instance;
+//  FirebaseUser _user;
+
   // ---------------
   @override
   Widget build(BuildContext context) {
+    final userdata = Provider.of<UserData>(context);
     ScreenUtil.instance = ScreenUtil.getInstance()..init(context);
     ScreenUtil.instance =
         ScreenUtil(width: 750, height: 1334, allowFontScaling: true);
@@ -186,19 +192,64 @@ class _authenticationPageState extends State<authenticationPage> {
                             child: InkWell(
                               onTap: () async {
                                 if (_formfieldKey_email.currentState.validate() && _formfieldKey_password.currentState.validate()){
-                                  Future<AuthResult> result =  _auth.signInWithEmailAndPassword(email: _formfieldKey_email.currentState.value, password: _formfieldKey_password.currentState.value)
-                                  .then((value) {
-                                    _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text('Login Success'),behavior: SnackBarBehavior.floating,));
-                                    user = value.user;
-                                    Timer _time = new Timer(Duration(seconds: 3), (){
-                                      Navigator.push(context, MaterialPageRoute(builder: (context)=> mainPage()));
+//                                  Future<AuthResult> result =  _auth.signInWithEmailAndPassword(email: _formfieldKey_email.currentState.value, password: _formfieldKey_password.currentState.value)
+//                                  .then((value) {
+//                                    _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text('Login Success'),behavior: SnackBarBehavior.floating,));
+//                                    _user = value.user;
+//
+//                                    Timer _time = new Timer(Duration(seconds: 3), (){
+//                                      Navigator.push(context, MaterialPageRoute(builder: (context)=> /*mainPage(user)*/ Passenger(_auth)));
+//                                    });
+//
+//
+//                                  })
+//                                      .catchError((onError) {
+//                                    _showCupertinoDialog(onError.code);
+//                                  });
+//                                Future<AuthResult> result = userdata.singinUser(_formfieldKey_email.currentState.value, _formfieldKey_password.currentState.value)
+//                                .then((value) {
+//                                    _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text('Login Success'),behavior: SnackBarBehavior.floating,));
+//                                    Timer _time = new Timer(Duration(seconds: 3), (){
+////                                      Navigator.push(context, MaterialPageRoute(builder: (context)=> /*mainPage(user)*/ Passenger()));
+//                                    });
+//                                  })
+//                                      .catchError((onError) {
+//                                    _showCupertinoDialog(onError.code);
+//                                  });
+//                                print('userdata12312312 : ${userdata.firebaseuser.toString()}');
+                                userdata.signIn(_formfieldKey_email.currentState.value, _formfieldKey_password.currentState.value);
+                                userdata.getResult()
+                                .then((onValue){
+                                  _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text('Login Success'),behavior: SnackBarBehavior.floating,));
+                                  userdata.firebaseuser = onValue.user;
+                                  Timer _time = new Timer(Duration(seconds: 3), (){
+                                      Navigator.push(context, MaterialPageRoute(builder: (context)=> /*mainPage(user)*/ Passenger()));
                                     });
+                                })
+                                    .catchError((onError){
+                                  _showCupertinoDialog(onError.code);
+                                });
 
 
-                                  })
-                                      .catchError((onError) {
-                                    _showCupertinoDialog(onError.code);
-                                  });
+//                                userdata.auth.currentUser().then((onValue){
+//                                  check = onValue.toString();
+//                                });
+//                                if (check != null )
+//                                  {
+//                                    print('here in firebaseuser');
+//                                    firebaseuser.auth.currentUser().then((onValue){
+//                                      print('hereherehhrehrhere ${onValue.toString()}');
+//                                    });
+//                                    _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text('Login Success'),behavior: SnackBarBehavior.floating,));
+//                                  Timer _time = new Timer(Duration(seconds: 3), (){
+//                                      Navigator.push(context, MaterialPageRoute(builder: (context)=> /*mainPage(user)*/ Passenger()));
+//                                      });
+//                                  }
+//                                else{
+////                                  print('onerror part : ${firebaseuser.onError.toString()}');
+//                                  _showCupertinoDialog(firebaseuser.onError.code);
+//
+//                                  }
                                 }
 
 

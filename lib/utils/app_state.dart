@@ -21,8 +21,6 @@ class AppState with ChangeNotifier {
   Set<Polyline> get polyLines => _polyLines;
 
   AppState() {
-//    _initialPosition  = LatLng()
-//    _initialPosition = LatLng(12.5,32.5);
     _getUserLocation();
 
   }
@@ -44,11 +42,11 @@ class AppState with ChangeNotifier {
         polylineId: PolylineId(_lastPosition.toString()),
         width: 10,
         points: _convertToLatLng(_decodePoly(encondedPoly)),
-        color: Colors.black));
+        color: Colors.blue));
     notifyListeners();
   }
 
-  // ! ADD A MARKER ON THE MAO
+  // ! ADD A MARKER ON THE MAP
   void _addMarker(LatLng location, String address) {
     _markers.add(Marker(
         markerId: MarkerId(_lastPosition.toString()),

@@ -1,5 +1,10 @@
 import 'package:broncorideshare/pages/authenPage.dart';
+import 'package:broncorideshare/pages/driver.dart';
 import 'package:broncorideshare/pages/introPage.dart';
+import 'package:broncorideshare/pages/passenger.dart';
+import 'package:broncorideshare/pages/signUp.dart';
+import 'package:broncorideshare/users/UserData.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:provider/provider.dart';
@@ -12,7 +17,8 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
   return runApp(MultiProvider(providers: [
-    ChangeNotifierProvider.value(value: AppState(),)
+    ChangeNotifierProvider.value(value: AppState(),),
+    ChangeNotifierProvider.value(value: UserData(),)
   ],
     child: MyApp(),));
 }
@@ -34,7 +40,7 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
 //      home: WelcomeScreen(),
-      home: authenticationPage(),
+      home: Driver(),
 //        home: WelcomeScreen(),
       routes: routes,
     );
@@ -101,10 +107,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     CircularProgressIndicator(),
                     Padding(padding: EdgeInsets.only(top:20.0),
                     ),
-                    Text("Rideshare App \n For Cal Poly Pomona Students",
-                      style: TextStyle(color:Colors.white,
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.bold),
+                    Center(
+                      child: Text("Rideshare App For Cal Poly Pomona Students",
+                        style: TextStyle(color:Colors.white,
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold),
+                      ),
                     )
                   ],
                 ),

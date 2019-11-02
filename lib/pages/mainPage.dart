@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:broncorideshare/utils/app_state.dart';
@@ -6,6 +7,10 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 
 class mainPage extends StatefulWidget {
+  FirebaseUser user;
+
+  mainPage(this.user);
+
   @override
   _mainPageState createState() => _mainPageState();
 }
@@ -38,7 +43,7 @@ class _MapState extends State<Map> {
       children: <Widget>[
         GoogleMap(
           initialCameraPosition: CameraPosition(
-              target: appState.initialPosition/*LatLng(34.063297, -117.818771)*/, zoom: 10.0),
+              target: appState.initialPosition, zoom: 10.0),
           onMapCreated: appState.onCreated,
           myLocationEnabled: true,
           mapType: MapType.normal,

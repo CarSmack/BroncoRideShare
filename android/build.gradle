@@ -10,23 +10,24 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'com.google.gms:google-services:4.3.0'  // Google Services plugin
 
-}
-
-allprojects {
-    repositories {
-        google()
-        jcenter()
     }
 }
 
-rootProject.buildDir = '../build'
-subprojects {
-    project.buildDir = "${rootProject.buildDir}/${project.name}"
-}
-subprojects {
-    project.evaluationDependsOn(':app')
-}
+    allprojects {
+        repositories {
+            google()
+            jcenter()
+        }
+    }
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
-}
+    rootProject.buildDir = '../build'
+    subprojects {
+        project.buildDir = "${rootProject.buildDir}/${project.name}"
+    }
+    subprojects {
+        project.evaluationDependsOn(':app')
+    }
+
+    task clean(type: Delete) {
+        delete rootProject.buildDir
+    }

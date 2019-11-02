@@ -39,9 +39,10 @@ class _signupState extends State<signup> {
       'password': password,
       'address': address,
       'phone':  phoneNum,
+      'driver': true,
 
   };
-    firestore.collection('users').add(data);
+    firestore.collection('users').document('${data['email']}').setData(data);
 
   }
   _launchURL() async {
