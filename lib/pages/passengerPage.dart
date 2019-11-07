@@ -1,19 +1,18 @@
-import 'package:broncorideshare/testing.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:broncorideshare/utils/app_state.dart';
+import 'package:broncorideshare/utils/appState.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:broncorideshare/users/UserData.dart';
-
+import 'package:broncorideshare/pages/driverPage.dart';
 class Passenger extends StatefulWidget {
   @override
   _PassengerState createState() => _PassengerState();
 }
 
 class _PassengerState extends State<Passenger> {
+  final passengerKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     final appState = Provider.of<AppState>(context);
@@ -26,21 +25,10 @@ class _PassengerState extends State<Passenger> {
     }
 
     //---------------------------------------------
-
-//    void seethedocumentdata(){
-//      Future<QuerySnapshot> data  = firestore.collection('finddriver').getDocuments();
-//      List<DocumentSnapshot> temp;
-//      data.then((onValue){
-//        temp = onValue.documents;
-//      });
-//      for(int i =0; i < temp.length;i++)
-//        {
-//          print('Document ID : ${temp[i].data['address']}');
-//        }
-//    }
+    
 
     //------------SEARCH FOR A DRIVER STATUS IN DATABASE------
-    void searching() async {
+    void searchForDriverInDatabase() async {
       Future<QuerySnapshot> snapshot =
           firestore.collection('users').getDocuments();
       snapshot.then((onValue) {
@@ -52,15 +40,21 @@ class _PassengerState extends State<Passenger> {
       });
     }
 
-    // -------------------------------------------------------------------------------
+    
     //----------------SAVE PASSENGER ADDRESS-----------------------------------------
-    dynamic passengerValue;
-    dynamic savePassengerAddress(dynamic value) {
-      return value;
-    }
+    dynamic passengerAddressValue;
 
-    return Material(
-      child: Stack(
+    //build start
+    return appState.initialPosition == null
+        ? Container(
+      alignment: Alignment.center,
+      child: Center(
+        child: CircularProgressIndicator(backgroundColor: Colors.blueGrey,),
+      ),
+    )
+     : Scaffold(
+      key: passengerKey,
+      body: Stack(
         children: <Widget>[
           GoogleMap(
             initialCameraPosition: CameraPosition(
@@ -98,7 +92,7 @@ class _PassengerState extends State<Passenger> {
 //                controller: appState.locationController,
 //                textInputAction: TextInputAction.go,
                 onChanged: (String value) {
-                  passengerValue = value;
+                  passengerAddressValue = value;
 //                onSubmitted: (value){
 //                   passengerValue = savePassengerAddress(value);
 //                   print('passengerValue ${passengerValue}');
@@ -116,7 +110,7 @@ class _PassengerState extends State<Passenger> {
                       color: Colors.black,
                     ),
                   ),
-                  hintText: "pick up",
+                  hintText: "Pick Up Address",
                   border: InputBorder.none,
                   contentPadding: EdgeInsets.only(left: 15.0, top: 16.0),
                 ),
@@ -128,21 +122,50 @@ class _PassengerState extends State<Passenger> {
             right: 15.0,
             left: 10.0,
             child: FloatingActionButton.extended(
+              heroTag: 'button1',
               onPressed: () {
-                Map<String, dynamic> data = {'pickupAdress': passengerValue};
+                Map<String, dynamic> pickupaddress = {'pickupAdress': passengerAddressValue};
 
                 firestore
                     .collection('finddriver')
                     .document('passenger:${userdata.firebaseuser.email}')
-                    .setData(data);
+                    .setData(pickupaddress);
+                  passengerKey.currentState.showSnackBar(SnackBar(content: Text("Your request has been sent!"), behavior: SnackBarBehavior.floating,));
               },
               label: Text('Find Driver'),
               icon: Icon(
                   FontAwesome5.getIconData("taxi", weight: IconWeight.Solid)),
             ),
           ),
+          Positioned(
+            top: 200,
+            right: 15,
+            left: 10,
+            child: FloatingActionButton.extended(
+              heroTag: 'button2',
+              label: Text('Go to Main page'),
+              onPressed: () {
+//                Navigator.push(context, MaterialPageRoute(builder: (context)=> mainPage()))
+              print('here');
+              Navigator.push(context, MaterialPageRoute(builder: (context) => mainPage()));
+              },
+            ),
+          )
         ],
       ),
     );
   }
 }
+
+//    This is left for future implementation
+//    void seethedocumentdata(){
+//      Future<QuerySnapshot> data  = firestore.collection('finddriver').getDocuments();
+//      List<DocumentSnapshot> temp;
+//      data.then((onValue){
+//        temp = onValue.documents;
+//      });
+//      for(int i =0; i < temp.length;i++)
+//        {
+//          print('Document ID : ${temp[i].data['address']}');
+//        }
+//    }

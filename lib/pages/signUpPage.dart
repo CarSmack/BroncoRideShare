@@ -1,5 +1,4 @@
-import 'package:broncorideshare/Widgets/FormCardSignUp.dart';
-import 'package:broncorideshare/utils/authenticate.dart';
+import 'package:broncorideshare/Widgets/formCardSignUp.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +31,9 @@ class _signupState extends State<signup> {
 
   //Firestore
   Firestore firestore = Firestore.instance;
-  void addUserInfo(String email,String password, String address, String phoneNum)
+  
+  //add user Info to FireStore
+  void addUserInfoToFireStore(String email,String password, String address, String phoneNum)
   {
     Map<String,dynamic> data = {
       'email': email,
@@ -45,6 +46,8 @@ class _signupState extends State<signup> {
     firestore.collection('users').document('${data['email']}').setData(data);
 
   }
+  
+  // lauch the url in order to let user to verify their email address
   _launchURL() async {
     const url = 'https://outlook.live.com/owa/';
     if (await canLaunch(url)) {
@@ -53,10 +56,9 @@ class _signupState extends State<signup> {
       throw 'Could not launch $url';
     }
   }
-
-
-
   // ---------End of firestore--------------
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,7 +70,7 @@ class _signupState extends State<signup> {
             child: Column(
           children: <Widget>[
             SizedBox(height: ScreenUtil.getInstance().setHeight(60)),
-            FormCardSignup(keyEmail, keyPassword, keyAddress, keyPhone),
+            formCardSignUp(keyEmail, keyPassword, keyAddress, keyPhone),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
@@ -90,15 +92,19 @@ class _signupState extends State<signup> {
                       color: Colors.transparent,
                       child: InkWell(
                         onTap: () async {
-                          keyEmail.currentState.validate();
-                          keyPassword.currentState.validate();
-                          FirebaseUser user = await _handleRegister(
-                              keyEmail.currentState.value.toString().trim(),
-                              keyPassword.currentState.value.toString().trim());
-                          assert(user != null);
-                          user.sendEmailVerification();
-                          addUserInfo(keyEmail.currentState.value, keyPassword.currentState.value, keyAddress.currentState.value, keyPhone.currentState.value);
-                          _launchURL();
+                          if (keyEmail.currentState.validate() && keyPassword.currentState.validate()) {
+                            FirebaseUser user = await _handleRegister(
+                                keyEmail.currentState.value.toString().trim(),
+                                keyPassword.currentState.value.toString()
+                                    .trim());
+                            assert(user != null);
+                            user.sendEmailVerification();
+                            addUserInfoToFireStore(keyEmail.currentState.value,
+                                keyPassword.currentState.value,
+                                keyAddress.currentState.value,
+                                keyPhone.currentState.value);
+                            _launchURL();
+                          }
                         },
                         child: Center(
                           child: Text("Sign Up",

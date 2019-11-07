@@ -1,4 +1,4 @@
-import 'package:broncorideshare/pages/signUp.dart';
+import 'package:broncorideshare/pages/signUpPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -6,7 +6,7 @@ import 'package:broncorideshare/utils/authenticate.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 
-class FormCardSignup extends StatefulWidget {
+class formCardSignUp extends StatefulWidget {
   // dynamic was use rather than final to set a parameter for Formcart to grab Formfieldstate to implement validate() whenever call the Class
   dynamic keyPassword = GlobalKey<FormFieldState>();
   dynamic keyEmail = GlobalKey<FormFieldState>();
@@ -15,7 +15,7 @@ class FormCardSignup extends StatefulWidget {
   dynamic keyPhone = GlobalKey<FormFieldState>();
    String _email, _password,_address,_phoneNum ;
   //Constructor-----------
-  FormCardSignup(this.keyEmail,this.keyPassword,this.keyAddress,this.keyPhone);
+  formCardSignUp(this.keyEmail,this.keyPassword,this.keyAddress,this.keyPhone);
   //this is made when Formcard does not need to return formfieldstate
 
 
@@ -24,11 +24,11 @@ class FormCardSignup extends StatefulWidget {
 
 
   @override
-  _FormCardSignupState createState() => _FormCardSignupState();
+  _formCardSignUpState createState() => _formCardSignUpState();
 }
 
 
-class _FormCardSignupState extends State<FormCardSignup> {
+class _formCardSignUpState extends State<formCardSignUp> {
 
   @override
   Widget build(BuildContext context) {

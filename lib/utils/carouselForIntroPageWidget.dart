@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 
-class Walkthrough extends StatefulWidget {
+class Carousel extends StatefulWidget {
   final title;
   final content;
   final imageIcon;
   final imagecolor;
 
-  Walkthrough(
+  Carousel(
       {this.title,
         this.content,
         this.imageIcon,
         this.imagecolor = Colors.redAccent});
 
   @override
-  WalkthroughState createState() {
-    return WalkthroughState();
+  CarouselState createState() {
+    return CarouselState();
   }
 }
 
-class WalkthroughState extends State<Walkthrough>
+class CarouselState extends State<Carousel>
     with SingleTickerProviderStateMixin {
   Animation animation;
   AnimationController animationController;

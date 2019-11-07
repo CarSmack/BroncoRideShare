@@ -1,28 +1,30 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:broncorideshare/utils/googleMapRequest.dart';
+import 'package:broncorideshare/utils/googleMapDirectionRequest.dart';
 
 class AppState with ChangeNotifier {
+  
   static LatLng _initialPosition;
   LatLng _lastPosition = _initialPosition;
   final Set<Marker> _markers = {};
   final Set<Polyline> _polyLines = {};
   GoogleMapController _mapController;
-  GoogleMapsServices _googleMapsServices = GoogleMapsServices();
-  TextEditingController locationController = TextEditingController();
-  TextEditingController destinationController = TextEditingController();
+  GoogleMapDirectionRequest _googleMapsServices = GoogleMapDirectionRequest();
+  TextEditingController locationTextController = TextEditingController();
+  TextEditingController destinationTextController = TextEditingController();
   LatLng get initialPosition => _initialPosition;
   LatLng get lastPosition => _lastPosition;
-  GoogleMapsServices get googleMapsServices => _googleMapsServices;
+  GoogleMapDirectionRequest get googleMapsServices => _googleMapsServices;
   GoogleMapController get mapController => _mapController;
   Set<Marker> get markers => _markers;
   Set<Polyline> get polyLines => _polyLines;
 
+  //contructor to get the set the current location from geolocator
   AppState() {
     _getUserLocation();
-
   }
 // ! TO GET THE USERS LOCATION
   void _getUserLocation() async {
@@ -31,12 +33,11 @@ class AppState with ChangeNotifier {
     List<Placemark> placemark = await Geolocator()
         .placemarkFromCoordinates(position.latitude, position.longitude);
     _initialPosition = LatLng(position.latitude, position.longitude);
-//    print("initial position is : ${_initialPosition.toString()}");
-    locationController.text = placemark[0].name;
+    locationTextController.text = placemark[0].name;
     notifyListeners();
   }
 
-  // ! TO CREATE ROUTE
+  //  To create route from polyLine parse from the JSON retrieved from Direction API
   void createRoute(String encondedPoly) {
     _polyLines.add(Polyline(
         polylineId: PolylineId(_lastPosition.toString()),
@@ -46,7 +47,7 @@ class AppState with ChangeNotifier {
     notifyListeners();
   }
 
-  // ! ADD A MARKER ON THE MAP
+  // Add Marker to the Map
   void _addMarker(LatLng location, String address) {
     _markers.add(Marker(
         markerId: MarkerId(_lastPosition.toString()),
@@ -56,7 +57,7 @@ class AppState with ChangeNotifier {
     notifyListeners();
   }
 
-  // ! CREATE LAGLNG LIST
+  // convert polyLine to LatLng
   List<LatLng> _convertToLatLng(List points) {
     List<LatLng> result = <LatLng>[];
     for (int i = 0; i < points.length; i++) {
@@ -102,7 +103,7 @@ class AppState with ChangeNotifier {
     return lList;
   }
 
-  // ! SEND REQUEST
+  // send Request using Direction API to get the poly points from current location to Destionation
   void sendRequest(String intendedLocation) async {
     List<Placemark> placemark =
     await Geolocator().placemarkFromAddress(intendedLocation);
@@ -112,18 +113,19 @@ class AppState with ChangeNotifier {
     _addMarker(destination, intendedLocation);
     String route = await _googleMapsServices.getRouteCoordinates(
         _initialPosition, destination);
+    //Debug printing
     print("Route: $route");
     createRoute(route);
     notifyListeners();
   }
 
-  // ! ON CAMERA MOVE
+  // make camera move when user move
   void onCameraMove(CameraPosition position) {
     _lastPosition = position.target;
     notifyListeners();
   }
 
-  // ! ON CREATE
+  // create Google Map controller
   void onCreated(GoogleMapController controller) {
     _mapController = controller;
     notifyListeners();

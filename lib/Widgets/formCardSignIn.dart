@@ -3,23 +3,23 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:broncorideshare/utils/authenticate.dart';
 
-class FormCard extends StatefulWidget {
+class formCardSignIn extends StatefulWidget {
   // dynamic was use rather than final to set a parameter for Formcart to grab Formfieldstate to implement validate() whenever call the Class
   dynamic formfieldkey_email = GlobalKey<FormFieldState>();
   dynamic formfieldkey_password = GlobalKey<FormFieldState>();
   String _email,_password;
   //Constructor-----------
-  FormCard(this.formfieldkey_email,this.formfieldkey_password);
+  formCardSignIn(this.formfieldkey_email,this.formfieldkey_password);
   //this is made when Formcard does not need to return formfieldstate
-  FormCard.register(this._email,this._password);
+  formCardSignIn.register(this._email,this._password);
    //  FormCard(formfieldkey)
   // --------------
 
   @override
-  _FormCardState createState() => _FormCardState();
+  _formCardSignInState createState() => _formCardSignInState();
 }
 
-class _FormCardState extends State<FormCard> {
+class _formCardSignInState extends State<formCardSignIn> {
 
 
 

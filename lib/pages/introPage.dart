@@ -1,20 +1,25 @@
-
 import 'package:flutter/material.dart';
+import 'package:broncorideshare/utils/carouselForIntroPageWidget.dart';
+import 'package:broncorideshare/pages/signInPage.dart';
 
-import 'package:broncorideshare/utils/walkthrough.dart';
-import 'package:broncorideshare/pages/authenPage.dart';
-class IntroScreen extends StatefulWidget {
+
+class introPage extends StatefulWidget {
   @override
-  IntroScreenState createState() {
-    return IntroScreenState();
+  introPageState createState() {
+    return introPageState();
   }
 }
 
-class IntroScreenState extends State<IntroScreen> {
+class introPageState extends State<introPage> {
+  /*Carousel
+  * controller : to control the behavior of the page & data
+  * currentPage := 0 , start at first page
+  * lastPage : to check if the page is the lastPage yet*/
   final PageController controller = new PageController();
   int currentPage = 0;
   bool lastPage = false;
 
+  /*Change the page of the carousel and validation if it is the lastPage yet*/
   void _onPageChanged(int page) {
     setState(() {
       currentPage = page;
@@ -42,22 +47,22 @@ class IntroScreenState extends State<IntroScreen> {
             flex: 3,
             child: PageView(
               children: <Widget>[
-                Walkthrough(
+                Carousel(
                   title: "Welcome",
                   content: "Bronco RideShare is made for Only Cal Poly Pomona students",
                   imageIcon: Icons.airport_shuttle,
                 ),
-                Walkthrough(
+                Carousel(
                   title: "Search and Commute Safe",
                   content: "Commute More Safe With The Student Who live near you",
                   imageIcon: Icons.search,
                 ),
-                Walkthrough(
+                Carousel(
                   title:"Make Friends and Ride",
                   content: "chatroom to communicate one another in a safe environment",
                   imageIcon: Icons.verified_user,
                 ),
-                Walkthrough(
+                Carousel(
                   title: "Rate & Reward",
                   content:  "Reward the Driver and Rate the Driver for safer community ",
                   imageIcon: Icons.rate_review,
