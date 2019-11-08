@@ -38,26 +38,6 @@ class _DriverState extends State<Driver> {
                               FloatingActionButton(
                                 child: Text("Accept"),
                                 onPressed: (){
-//                                   Map<String,dynamic> passengerData;
-//                                   Map<String,dynamic> temp;
-//
-//
-//                                    Future<DocumentSnapshot> data = Firestore
-//                                        .instance.collection('users')
-//                                        .document(
-//                                        '${document.documentID.substring(10)}').get();
-//                                    data.then((onValue) {
-//                                      onValue.data.forEach((k,v){
-//                                        if( k == 'address' || k == 'phone')
-//                                          temp = { '$k' : v};
-//                                          passengerData.addAll(temp);
-////                                      print('$k -> $v');
-//                                      });
-//                                    });
-////                                    passengerData.forEach((k,v){
-////                                      print('$k -> $v');
-////                                    });
-//                                print('length: ${passengerData.length}');
                                 },
                               )
                             ],
@@ -67,7 +47,7 @@ class _DriverState extends State<Driver> {
                       ],
 
 
-                      //subtitle: new Text(document['author']),
+
                     ),
                   );
                 }).toList(),

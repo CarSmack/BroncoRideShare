@@ -21,6 +21,9 @@ class googleMap extends StatefulWidget {
 }
 
 class _googleMapState extends State<googleMap> {
+
+
+
   @override
   Widget build(BuildContext context) {
     /*appState is for DI and State Management throuhgout the app with the Class Provider*/
@@ -53,9 +56,6 @@ class _googleMapState extends State<googleMap> {
                 markers: appState.markers,
                 onCameraMove: appState.onCameraMove,
                 polylines: appState.polyLines,
-//          onCameraMoveStarted: () {
-//            appState.mapController.moveCamera(CameraUpdate.newLatLngZoom(appState.lastPosition, 10.0));
-//          },
               ),
               Positioned(
                 top: 50.0,
@@ -184,77 +184,6 @@ class _googleMapState extends State<googleMap> {
                   },
                 ),
               )
-//              Positioned(
-//                top: 120,
-//                right: 15.0,
-//                left: 15.0,
-//                child: StreamBuilder<QuerySnapshot>(
-//                  stream:
-//                      Firestore.instance.collection('finddriver').snapshots(),
-//                  builder: (BuildContext context,
-//                      AsyncSnapshot<QuerySnapshot> snapshot) {
-//                    if (snapshot.hasError)
-//                      return Text('Error: ${snapshot.error}');
-//                    switch (snapshot.connectionState) {
-//                      case ConnectionState.waiting:
-//                        return Text('Loading...');
-//                      default:
-//                        return ListView(
-//                          children: snapshot.data.documents
-//                              .map((DocumentSnapshot document) {
-//                            return Card(
-//                              child: ExpansionTile(
-//                                title: Text('${document['pickupAddress']}'),
-//                                trailing: Icon(Icons.more_vert),
-////                      onLongPress: () => print(" long press"),
-////                      onTap: () => print("tap"),
-//                                children: <Widget>[
-//                                  FlatButton(
-//                                    child: Row(
-//                                      mainAxisAlignment:
-//                                          MainAxisAlignment.spaceBetween,
-//                                      children: <Widget>[
-//                                        Text(document.documentID.substring(10)),
-//                                        FloatingActionButton(
-//                                          heroTag: "button1",
-//                                          child: Text("Accept"),
-//                                          onPressed: () {
-////                                   Map<String,dynamic> passengerData;
-////                                   Map<String,dynamic> temp;
-////
-////
-////                                    Future<DocumentSnapshot> data = Firestore
-////                                        .instance.collection('users')
-////                                        .document(
-////                                        '${document.documentID.substring(10)}').get();
-////                                    data.then((onValue) {
-////                                      onValue.data.forEach((k,v){
-////                                        if( k == 'address' || k == 'phone')
-////                                          temp = { '$k' : v};
-////                                          passengerData.addAll(temp);
-//////                                      print('$k -> $v');
-////                                      });
-////                                    });
-//////                                    passengerData.forEach((k,v){
-//////                                      print('$k -> $v');
-//////                                    });
-////                                print('length: ${passengerData.length}');
-//                                          },
-//                                        )
-//                                      ],
-//                                    ), onPressed: () {},
-//                                  ),
-//                                ],
-//
-//                                //subtitle: new Text(document['author']),
-//                              ),
-//                            );
-//                          }).toList(),
-//                        );
-//                    }
-//                  },
-//                ),
-//              )
             ],
           );
   }

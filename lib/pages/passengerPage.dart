@@ -1,5 +1,7 @@
+import 'package:broncorideshare/utils/geoFireFlutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 import 'package:broncorideshare/utils/appState.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -43,6 +45,7 @@ class _PassengerState extends State<Passenger> {
     
     //----------------SAVE PASSENGER ADDRESS-----------------------------------------
     dynamic passengerAddressValue;
+    geoFlutterFire saveDataToFirebase = geoFlutterFire();
 
     //build start
     return appState.initialPosition == null
@@ -93,13 +96,11 @@ class _PassengerState extends State<Passenger> {
 //                textInputAction: TextInputAction.go,
                 onChanged: (String value) {
                   passengerAddressValue = value;
-//                onSubmitted: (value){
-//                   passengerValue = savePassengerAddress(value);
-//                   print('passengerValue ${passengerValue}');
-//
-//
-//                },
                 },
+//                onSubmitted: (value){
+//
+//                  saveDataToFirebase.addGeoPointToFirebase(value);
+//                },
                 decoration: InputDecoration(
                   icon: Container(
                     margin: EdgeInsets.only(left: 20, top: 5),
@@ -130,6 +131,7 @@ class _PassengerState extends State<Passenger> {
                     .collection('finddriver')
                     .document('passenger:${userdata.firebaseuser.email}')
                     .setData(pickupaddress);
+                saveDataToFirebase.addGeoPointToFirebase(passengerAddressValue);
                   passengerKey.currentState.showSnackBar(SnackBar(content: Text("Your request has been sent!"), behavior: SnackBarBehavior.floating,));
               },
               label: Text('Find Driver'),
@@ -156,16 +158,3 @@ class _PassengerState extends State<Passenger> {
     );
   }
 }
-
-//    This is left for future implementation
-//    void seethedocumentdata(){
-//      Future<QuerySnapshot> data  = firestore.collection('finddriver').getDocuments();
-//      List<DocumentSnapshot> temp;
-//      data.then((onValue){
-//        temp = onValue.documents;
-//      });
-//      for(int i =0; i < temp.length;i++)
-//        {
-//          print('Document ID : ${temp[i].data['address']}');
-//        }
-//    }

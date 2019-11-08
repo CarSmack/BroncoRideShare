@@ -17,13 +17,6 @@ class UserData with ChangeNotifier {
     if(_auth.currentUser() != null)
       _auth.signOut();
     Future<AuthResult> result =  _auth.signInWithEmailAndPassword(email: _email, password: _password);
-//    .then((onValue){
-//      firebaseuser = onValue.user;
-//    })
-//    .catchError((onError)  {
-//      _onError =  onError;
-//    });
-//    notifyListeners();
     result.then((onValue){
       firebaseuser = onValue.user;
     });
