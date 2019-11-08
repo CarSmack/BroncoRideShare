@@ -11,7 +11,6 @@ class geoFlutterFire {
   static Geoflutterfire geo = Geoflutterfire();
   static var collectionReference = _firestore.collection('locations');
   var geoRef = geo.collection(collectionRef: collectionReference);
-  FirebaseAuth _auth = FirebaseAuth.instance;
 
 
   void queryPassengerFromFirebase(GeoFirePoint currentLocation){
@@ -21,12 +20,19 @@ class geoFlutterFire {
     });
   }
 
-  Future<void> addGeoPointToFirebase(String pickUpLocation) async {
+  Future<void> addPickUpRequestToFirebase(String pickUpLocation, UserData userdata, String date, String time) async {
     List<Placemark> placemark =
         await Geolocator().placemarkFromAddress(pickUpLocation);
     double latitude = placemark[0].position.latitude;
     double longitude = placemark[0].position.longitude;
-    UserData userdata = UserData();
-    _firestore.collection('passengerPickUpData').add({'username': 'passenger:${userdata.firebaseuser.email}', 'position': geo.point(latitude: latitude, longitude: longitude).data});
+    print('userdata firebaseuser from geoflutterfire ${userdata.firebaseuser.email}');
+    print('latitude of pickuplocation ${latitude}');
+    print('longitude of pickuplocation ${longitude}');
+    _firestore.collection('passengerPickUpData').add(
+        {'username': '${userdata.firebaseuser.email}',
+          'position': geo.point(latitude: latitude, longitude: longitude).data,
+          'date' : date,
+          'time' : time,
+        });
   }
 }

@@ -8,6 +8,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:broncorideshare/users/UserData.dart';
 import 'package:broncorideshare/pages/driverPage.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 class Passenger extends StatefulWidget {
   @override
   _PassengerState createState() => _PassengerState();
@@ -15,6 +16,11 @@ class Passenger extends StatefulWidget {
 
 class _PassengerState extends State<Passenger> {
   final passengerKey = GlobalKey<ScaffoldState>();
+  String _date = "Not set";
+  String _time = "Not set";
+  geoFlutterFire geoFlutterfire = geoFlutterFire();
+  
+  
   @override
   Widget build(BuildContext context) {
     final appState = Provider.of<AppState>(context);
@@ -45,7 +51,7 @@ class _PassengerState extends State<Passenger> {
     
     //----------------SAVE PASSENGER ADDRESS-----------------------------------------
     dynamic passengerAddressValue;
-    geoFlutterFire saveDataToFirebase = geoFlutterFire();
+
 
     //build start
     return appState.initialPosition == null
@@ -119,19 +125,21 @@ class _PassengerState extends State<Passenger> {
             ),
           ),
           Positioned(
-            top: 120.0,
+            top: 250.0,
             right: 15.0,
             left: 10.0,
             child: FloatingActionButton.extended(
               heroTag: 'button1',
-              onPressed: () {
-                Map<String, dynamic> pickupaddress = {'pickupAdress': passengerAddressValue};
+              onPressed: (){
 
-                firestore
-                    .collection('finddriver')
-                    .document('passenger:${userdata.firebaseuser.email}')
-                    .setData(pickupaddress);
-                saveDataToFirebase.addGeoPointToFirebase(passengerAddressValue);
+                try {
+                  geoFlutterfire.addPickUpRequestToFirebase(
+                      passengerAddressValue,userdata,_date,_time);
+                }
+                catch(e)
+                {
+                  print('Error from geoflutterfire${e.toString()}');
+                }
                   passengerKey.currentState.showSnackBar(SnackBar(content: Text("Your request has been sent!"), behavior: SnackBarBehavior.floating,));
               },
               label: Text('Find Driver'),
@@ -140,19 +148,133 @@ class _PassengerState extends State<Passenger> {
             ),
           ),
           Positioned(
-            top: 200,
-            right: 15,
-            left: 10,
-            child: FloatingActionButton.extended(
-              heroTag: 'button2',
-              label: Text('Go to Main page'),
-              onPressed: () {
-//                Navigator.push(context, MaterialPageRoute(builder: (context)=> mainPage()))
-              print('here');
-              Navigator.push(context, MaterialPageRoute(builder: (context) => mainPage()));
-              },
+            top: 120.0,
+            right: 15.0,
+            left: 10.0,
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                RaisedButton(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5.0)),
+                  elevation: 4.0,
+                  onPressed: () {
+                    DatePicker.showDatePicker(context,
+                        theme: DatePickerTheme(
+                          containerHeight: 210.0,
+                        ),
+                        showTitleActions: true,
+                        minTime: DateTime(2000, 1, 1),
+                        maxTime: DateTime(2022, 12, 31), onConfirm: (date) {
+                          print('confirm $date');
+                          _date = '${date.year} - ${date.month} - ${date.day}';
+                          setState(() {});
+                        }, currentTime: DateTime.now(), locale: LocaleType.en);
+                  },
+                  child: Container(
+                    alignment: Alignment.center,
+                    height: 50.0,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Row(
+                          children: <Widget>[
+                            Container(
+                              child: Row(
+                                children: <Widget>[
+                                  Icon(
+                                    Icons.date_range,
+                                    size: 18.0,
+                                    color: Colors.teal,
+                                  ),
+                                  Text(
+                                    " $_date",
+                                    style: TextStyle(
+                                        color: Colors.teal,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18.0),
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                        Text(
+                          "  Change",
+                          style: TextStyle(
+                              color: Colors.teal,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18.0),
+                        ),
+                      ],
+                    ),
+                  ),
+                  color: Colors.white,
+                ),
+                SizedBox(
+                  height: 20.0,
+                ),
+                RaisedButton(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5.0)),
+                  elevation: 4.0,
+                  onPressed: () {
+                    DatePicker.showTimePicker(context,
+                        theme: DatePickerTheme(
+                          containerHeight: 210.0,
+                        ),
+                        showTitleActions: true, onConfirm: (time) {
+                          print('confirm $time');
+                          _time = '${time.hour} : ${time.minute} : ${time.second}';
+                          setState(() {});
+                        }, currentTime: DateTime.now(), locale: LocaleType.en);
+                    setState(() {});
+                  },
+                  child: Container(
+                    alignment: Alignment.center,
+                    height: 50.0,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Row(
+                          children: <Widget>[
+                            Container(
+                              child: Row(
+                                children: <Widget>[
+                                  Icon(
+                                    Icons.access_time,
+                                    size: 18.0,
+                                    color: Colors.teal,
+                                  ),
+                                  Text(
+                                    " $_time",
+                                    style: TextStyle(
+                                        color: Colors.teal,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18.0),
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                        Text(
+                          "  Change",
+                          style: TextStyle(
+                              color: Colors.teal,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18.0),
+                        ),
+                      ],
+                    ),
+                  ),
+                  color: Colors.white,
+                )
+              ],
             ),
-          )
+          ),
+
         ],
       ),
     );
