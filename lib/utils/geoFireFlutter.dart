@@ -1,10 +1,7 @@
 import 'package:broncorideshare/users/UserData.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class geoFlutterFire {
   static Firestore _firestore = Firestore.instance;
@@ -19,7 +16,8 @@ class geoFlutterFire {
       onData.length;
     });
   }
-
+  /*
+  * Get a LatLg of a location and push the data into the FireStore Database*/
   Future<void> addPickUpRequestToFirebase(String pickUpLocation, UserData userdata, String date, String time) async {
     List<Placemark> placemark =
         await Geolocator().placemarkFromAddress(pickUpLocation);
