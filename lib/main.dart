@@ -1,5 +1,3 @@
-import 'package:broncorideshare/pages/signInPage.dart';
-import 'package:broncorideshare/pages/introPage.dart';
 import 'package:broncorideshare/pages/welcomePage.dart';
 import 'package:broncorideshare/users/UserData.dart';
 import 'package:flutter/material.dart';
@@ -17,9 +15,7 @@ void main() {
   ],
     child: MyApp(),));
 }
-//var routes = <String, WidgetBuilder>{
-//  "/intro": (BuildContext context) => IntroScreen(),
-//};
+
 
 
 class MyApp extends StatelessWidget {
@@ -34,10 +30,7 @@ class MyApp extends StatelessWidget {
         accentColor: Colors.yellowAccent,
       ),
       debugShowCheckedModeBanner: false,
-//      home: WelcomeScreen(),
       home: welcomePage(),
-//        home: WelcomeScreen(),
-//      routes: routes,
     );
   }
 }

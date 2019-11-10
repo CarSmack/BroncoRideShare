@@ -48,7 +48,7 @@ class AppState with ChangeNotifier {
   }
 
   // Add Marker to the Map
-  void _addMarker(LatLng location, String address) {
+  void addMarker(LatLng location, String address) {
     _markers.add(Marker(
         markerId: MarkerId(_lastPosition.toString()),
         position: location,
@@ -110,7 +110,7 @@ class AppState with ChangeNotifier {
     double latitude = placemark[0].position.latitude;
     double longitude = placemark[0].position.longitude;
     LatLng destination = LatLng(latitude, longitude);
-    _addMarker(destination, intendedLocation);
+    addMarker(destination, intendedLocation);
     String route = await _googleMapsServices.getRouteCoordinates(
         _initialPosition, destination);
     //Debug printing

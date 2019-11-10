@@ -16,38 +16,18 @@ class Passenger extends StatefulWidget {
 
 class _PassengerState extends State<Passenger> {
   final passengerKey = GlobalKey<ScaffoldState>();
+  geoFlutterFire geoFlutterfire = geoFlutterFire();
   String _date = "Not set";
   String _time = "Not set";
-  geoFlutterFire geoFlutterfire = geoFlutterFire();
-  
+
+
+
   
   @override
   Widget build(BuildContext context) {
     final appState = Provider.of<AppState>(context);
     Firestore firestore = Firestore.instance;
     final userdata = Provider.of<UserData>(context);
-
-    //SEND A REQUEST TO A DRIVER
-    void sendRequestToDriver() {
-      print('${userdata.firebaseuser.toString()}');
-    }
-
-    //---------------------------------------------
-    
-
-    //------------SEARCH FOR A DRIVER STATUS IN DATABASE------
-    void searchForDriverInDatabase() async {
-      Future<QuerySnapshot> snapshot =
-          firestore.collection('users').getDocuments();
-      snapshot.then((onValue) {
-        List<DocumentSnapshot> documentdata = onValue.documents;
-        for (int i = 0; i < documentdata.length; i++) {
-          print('documentiD : ${documentdata[i].data['driver']}');
-          if (documentdata[i].data['driver'] == true) sendRequestToDriver();
-        }
-      });
-    }
-
     
     //----------------SAVE PASSENGER ADDRESS-----------------------------------------
     dynamic passengerAddressValue;
@@ -133,8 +113,10 @@ class _PassengerState extends State<Passenger> {
               onPressed: (){
 
                 try {
+
                   geoFlutterfire.addPickUpRequestToFirebase(
                       passengerAddressValue,userdata,_date,_time);
+
                 }
                 catch(e)
                 {
@@ -145,6 +127,79 @@ class _PassengerState extends State<Passenger> {
               label: Text('Find Driver'),
               icon: Icon(
                   FontAwesome5.getIconData("taxi", weight: IconWeight.Solid)),
+            ),
+          ),
+          Positioned(
+            top: 725,
+            left: 345,
+            child: FloatingActionButton(
+              child: Icon(Icons.find_in_page),
+              backgroundColor: Colors.white,
+              splashColor: Colors.blue,
+              onPressed: () {
+                showModalBottomSheet(
+                    context: context,
+                    builder: (context) {
+                      return Container(
+                        constraints: BoxConstraints(
+                            minHeight: MediaQuery.of(context).size.height),
+                        height: MediaQuery.of(context).size.height,
+                        child: StreamBuilder<QuerySnapshot>(
+                          stream: Firestore.instance
+                              .collection('passengerPickUpData')
+                              .snapshots(),
+                          builder: (BuildContext context,
+                              AsyncSnapshot<QuerySnapshot> snapshot) {
+                            if (snapshot.hasError)
+                              return Text('Error: ${snapshot.error}');
+                            switch (snapshot.connectionState) {
+                              case ConnectionState.waiting:
+                                return Text('Loading...');
+                              default:
+                                return ListView(
+                                  children: snapshot.data.documents
+                                      .map((DocumentSnapshot document) {
+                                    return Card(
+                                      child: ExpansionTile(
+                                        title: Text(document['username']),
+                                        trailing: Icon(Icons.more_vert),
+                                        children: <Widget>[
+                                          FlatButton(
+                                            child: Row(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment
+                                                  .spaceBetween,
+                                              children: <Widget>[
+                                                Column(
+                                                  children: <Widget>[
+                                                    Text(
+                                                        'Address: ${document['address']}'),
+                                                    Text(
+                                                        ' ${document['date']}'),
+                                                    Text(
+                                                        ' ${document['time']}'),
+
+                                                  ],
+                                                ),
+
+                                                FlatButton(
+                                                  child: Text("Cancel"),
+                                                  onPressed: () {},
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  }).toList(),
+                                );
+                            }
+                          },
+                        ),
+                      );
+                    });
+              },
             ),
           ),
           Positioned(
@@ -169,7 +224,7 @@ class _PassengerState extends State<Passenger> {
                         maxTime: DateTime(2022, 12, 31), onConfirm: (date) {
                           print('confirm $date');
                           _date = '${date.year} - ${date.month} - ${date.day}';
-                          setState(() {});
+//                          setState(() {});
                         }, currentTime: DateTime.now(), locale: LocaleType.en);
                   },
                   child: Container(
@@ -189,7 +244,7 @@ class _PassengerState extends State<Passenger> {
                                     color: Colors.teal,
                                   ),
                                   Text(
-                                    " $_date",
+                                    "Please Choose Your Date",
                                     style: TextStyle(
                                         color: Colors.teal,
                                         fontWeight: FontWeight.bold,
@@ -227,9 +282,9 @@ class _PassengerState extends State<Passenger> {
                         showTitleActions: true, onConfirm: (time) {
                           print('confirm $time');
                           _time = '${time.hour} : ${time.minute} : ${time.second}';
-                          setState(() {});
+//                          setState(() {});
                         }, currentTime: DateTime.now(), locale: LocaleType.en);
-                    setState(() {});
+//                    setState(() {});
                   },
                   child: Container(
                     alignment: Alignment.center,
@@ -248,7 +303,7 @@ class _PassengerState extends State<Passenger> {
                                     color: Colors.teal,
                                   ),
                                   Text(
-                                    " $_time",
+                                    " Please Choose your Time",
                                     style: TextStyle(
                                         color: Colors.teal,
                                         fontWeight: FontWeight.bold,
