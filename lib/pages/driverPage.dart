@@ -141,8 +141,8 @@ class _googleMapState extends State<googleMap> {
                 ),
               ),
               Positioned(
-                top: 725,
-                left: 345,
+                top: MediaQuery.of(context).size.height -175,
+                left: MediaQuery.of(context).size.width - 66,
                 child: FloatingActionButton(
                   child: Icon(Icons.find_in_page),
                   backgroundColor: Colors.white,

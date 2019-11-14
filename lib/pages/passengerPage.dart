@@ -1,14 +1,17 @@
 import 'package:broncorideshare/utils/geoFireFlutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_webservice/places.dart';
 import 'package:provider/provider.dart';
 import 'package:broncorideshare/utils/appState.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:broncorideshare/users/UserData.dart';
-import 'package:broncorideshare/pages/driverPage.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:flutter_google_places/flutter_google_places.dart';
+
+
 class Passenger extends StatefulWidget {
   @override
   _PassengerState createState() => _PassengerState();
@@ -17,20 +20,23 @@ class Passenger extends StatefulWidget {
 class _PassengerState extends State<Passenger> {
   final passengerKey = GlobalKey<ScaffoldState>();
   geoFlutterFire geoFlutterfire = geoFlutterFire();
-  String _date = "Not set";
-  String _time = "Not set";
+  String _date = "Please Choose Your Date";
+  String _time = "Please Choose Your Time";
 
+  //Store passenger pick up address
+  dynamic passengerAddressValue;
+  final pickUpTextController = TextEditingController();
 
 
   
   @override
   Widget build(BuildContext context) {
+
+    //State Management for Map and User
     final appState = Provider.of<AppState>(context);
-    Firestore firestore = Firestore.instance;
     final userdata = Provider.of<UserData>(context);
     
-    //----------------SAVE PASSENGER ADDRESS-----------------------------------------
-    dynamic passengerAddressValue;
+
 
 
     //build start
@@ -78,15 +84,24 @@ class _PassengerState extends State<Passenger> {
               ),
               child: TextField(
                 cursorColor: Colors.black,
-//                controller: appState.locationController,
-//                textInputAction: TextInputAction.go,
-                onChanged: (String value) {
-                  passengerAddressValue = value;
+              controller: pickUpTextController,
+                onTap: ()async{
+                  Prediction p = await PlacesAutocomplete.show(
+                    context: context,
+                    apiKey: 'AIzaSyCKsdwGt1mKCpw4I7KIqRzyWRSEC7uTP34',
+                    language: 'en',
+                    components: [Component(Component.country,"us")],
+                  // ignore: missing_return
+                  ).then((onValue){
+                    print('Search description ${onValue.description}');
+                    passengerAddressValue = onValue.description;
+
+                      pickUpTextController.text = passengerAddressValue;
+                  }).catchError((onError){
+                    print('Error on AutoComplete : ${onError}');
+                  });
+
                 },
-//                onSubmitted: (value){
-//
-//                  saveDataToFirebase.addGeoPointToFirebase(value);
-//                },
                 decoration: InputDecoration(
                   icon: Container(
                     margin: EdgeInsets.only(left: 20, top: 5),
@@ -111,18 +126,40 @@ class _PassengerState extends State<Passenger> {
             child: FloatingActionButton.extended(
               heroTag: 'button1',
               onPressed: (){
-
-                try {
-
-                  geoFlutterfire.addPickUpRequestToFirebase(
-                      passengerAddressValue,userdata,_date,_time);
-
-                }
-                catch(e)
+                if(_date == null || _time == null || passengerAddressValue == null)
                 {
-                  print('Error from geoflutterfire${e.toString()}');
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return CupertinoAlertDialog(
+                          title: Text("Invalid Input!"),
+                          content: Text("Please make sure to input Pick up Address, Date ,and Time correctly."),
+                          actions: <Widget>[
+                            FlatButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Text('Close')),
+                          ],
+                        );
+                      });
                 }
-                  passengerKey.currentState.showSnackBar(SnackBar(content: Text("Your request has been sent!"), behavior: SnackBarBehavior.floating,));
+                else
+                  {
+                    try {
+
+                      geoFlutterfire.addPickUpRequestToFirebase(
+                          passengerAddressValue,userdata,_date,_time);
+
+
+                    }
+                    catch(e)
+                    {
+                      print('Error from geoflutterfire${e.toString()}');
+                    }
+                    passengerKey.currentState.showSnackBar(SnackBar(content: Text("Your request has been sent!"), behavior: SnackBarBehavior.floating,));
+                  }
+
               },
               label: Text('Find Driver'),
               icon: Icon(
@@ -130,13 +167,14 @@ class _PassengerState extends State<Passenger> {
             ),
           ),
           Positioned(
-            top: 725,
-            left: 345,
+            top: MediaQuery.of(context).size.height -175,
+            left: MediaQuery.of(context).size.width - 66,
             child: FloatingActionButton(
               child: Icon(Icons.find_in_page),
               backgroundColor: Colors.white,
               splashColor: Colors.blue,
               onPressed: () {
+                int numOfRequest = 1;
                 showModalBottomSheet(
                     context: context,
                     builder: (context) {
@@ -161,7 +199,7 @@ class _PassengerState extends State<Passenger> {
                                       .map((DocumentSnapshot document) {
                                     return Card(
                                       child: ExpansionTile(
-                                        title: Text(document['username']),
+                                        title: Text('Request #${numOfRequest++}'),
                                         trailing: Icon(Icons.more_vert),
                                         children: <Widget>[
                                           FlatButton(
@@ -173,7 +211,7 @@ class _PassengerState extends State<Passenger> {
                                                 Column(
                                                   children: <Widget>[
                                                     Text(
-                                                        'Address: ${document['address']}'),
+                                                        ' ${document['address']}'),
                                                     Text(
                                                         ' ${document['date']}'),
                                                     Text(
@@ -184,7 +222,21 @@ class _PassengerState extends State<Passenger> {
 
                                                 FlatButton(
                                                   child: Text("Cancel"),
-                                                  onPressed: () {},
+                                                  onPressed: () {
+                                                    try {
+                                                      Firestore.instance
+                                                          .collection(
+                                                          'passengerPickUpData')
+                                                          .document('${document
+                                                          .documentID}')
+                                                          .delete();
+                                                      numOfRequest = 1;
+                                                    }catch(e)
+                                                    {
+                                                      print("error: $e");
+                                                    }
+
+                                                  },
                                                 )
                                               ],
                                             ),
@@ -223,8 +275,8 @@ class _PassengerState extends State<Passenger> {
                         minTime: DateTime(2000, 1, 1),
                         maxTime: DateTime(2022, 12, 31), onConfirm: (date) {
                           print('confirm $date');
-                          _date = '${date.year} - ${date.month} - ${date.day}';
-//                          setState(() {});
+                          _date = '${date.month} - ${date.day} - ${date.year}';
+                          setState(() {});
                         }, currentTime: DateTime.now(), locale: LocaleType.en);
                   },
                   child: Container(
@@ -244,7 +296,7 @@ class _PassengerState extends State<Passenger> {
                                     color: Colors.teal,
                                   ),
                                   Text(
-                                    "Please Choose Your Date",
+                                    "$_date",
                                     style: TextStyle(
                                         color: Colors.teal,
                                         fontWeight: FontWeight.bold,
@@ -281,10 +333,10 @@ class _PassengerState extends State<Passenger> {
                         ),
                         showTitleActions: true, onConfirm: (time) {
                           print('confirm $time');
-                          _time = '${time.hour} : ${time.minute} : ${time.second}';
-//                          setState(() {});
+                          _time = '${time.hour} : ${time.minute}';
+                          setState(() {});
                         }, currentTime: DateTime.now(), locale: LocaleType.en);
-//                    setState(() {});
+                    setState(() {});
                   },
                   child: Container(
                     alignment: Alignment.center,
@@ -303,7 +355,7 @@ class _PassengerState extends State<Passenger> {
                                     color: Colors.teal,
                                   ),
                                   Text(
-                                    " Please Choose your Time",
+                                    "$_time",
                                     style: TextStyle(
                                         color: Colors.teal,
                                         fontWeight: FontWeight.bold,
