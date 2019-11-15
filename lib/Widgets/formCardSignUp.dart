@@ -30,7 +30,7 @@ class _formCardSignUpState extends State<formCardSignUp> {
   Widget build(BuildContext context) {
     return new Container(
       width: double.infinity,
-      height: ScreenUtil.getInstance().setHeight(700),
+      height: ScreenUtil.getInstance().setHeight(800),
       decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(8.0),

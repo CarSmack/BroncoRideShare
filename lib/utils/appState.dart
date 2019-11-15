@@ -121,9 +121,12 @@ class AppState with ChangeNotifier {
 
   // make camera move when user move
   void onCameraMove(CameraPosition position) {
+
     _lastPosition = position.target;
+
     notifyListeners();
   }
+
 
   // create Google Map controller
   void onCreated(GoogleMapController controller) {
