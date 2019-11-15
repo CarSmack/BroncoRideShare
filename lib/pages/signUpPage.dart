@@ -17,6 +17,7 @@ class _signupState extends State<signup> {
   final keyEmail = GlobalKey<FormFieldState>();
   final keyAddress = GlobalKey<FormFieldState>();
   final keyPhone = GlobalKey<FormFieldState>();
+  final keyFullName = GlobalKey<FormFieldState>();
   //This will return FirebaseUser
   Future<FirebaseUser> _handleRegister(emails, passwords) async {
     final FirebaseUser user = (await _auth.createUserWithEmailAndPassword(
@@ -33,16 +34,15 @@ class _signupState extends State<signup> {
   Firestore firestore = Firestore.instance;
   
   //add user Info to FireStore
-  void addUserInfoToFireStore(String email,String password, String address, String phoneNum)
+  void addUserInfoToFireStore(String email,String password, String address, String phoneNum, String fullName)
   {
     Map<String,dynamic> data = {
+      'name': fullName,
       'email': email,
       'password': password,
       'address': address,
       'phone':  phoneNum,
-      'driver': true,
-
-  };
+      };
     firestore.collection('users').document('${data['email']}').setData(data);
 
   }
@@ -70,7 +70,7 @@ class _signupState extends State<signup> {
             child: Column(
           children: <Widget>[
             SizedBox(height: ScreenUtil.getInstance().setHeight(60)),
-            formCardSignUp(keyEmail, keyPassword, keyAddress, keyPhone),
+            formCardSignUp(keyEmail, keyPassword, keyAddress, keyPhone, keyFullName),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
@@ -102,7 +102,8 @@ class _signupState extends State<signup> {
                             addUserInfoToFireStore(keyEmail.currentState.value,
                                 keyPassword.currentState.value,
                                 keyAddress.currentState.value,
-                                keyPhone.currentState.value);
+                                keyPhone.currentState.value,
+                                keyFullName.currentState.value);
                             _launchURL();
                           }
                         },

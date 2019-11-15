@@ -14,7 +14,7 @@ class _DriverState extends State<Driver> {
 
     return Material(
       child: StreamBuilder<QuerySnapshot>(
-        stream: Firestore.instance.collection('finddriver').snapshots(),
+        stream: Firestore.instance.collection('passengerPickUpData').snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError)
             return Text('Error: ${snapshot.error}');
@@ -25,7 +25,7 @@ class _DriverState extends State<Driver> {
                 children: snapshot.data.documents.map((DocumentSnapshot document) {
                   return Card(
                     child: ExpansionTile(
-                      title: Text(document['pickupAdress']),
+                      title: Text(document['username']),
                       trailing: Icon(Icons.more_vert),
 //                      onLongPress: () => print(" long press"),
 //                      onTap: () => print("tap"),
@@ -38,26 +38,6 @@ class _DriverState extends State<Driver> {
                               FloatingActionButton(
                                 child: Text("Accept"),
                                 onPressed: (){
-//                                   Map<String,dynamic> passengerData;
-//                                   Map<String,dynamic> temp;
-//
-//
-//                                    Future<DocumentSnapshot> data = Firestore
-//                                        .instance.collection('users')
-//                                        .document(
-//                                        '${document.documentID.substring(10)}').get();
-//                                    data.then((onValue) {
-//                                      onValue.data.forEach((k,v){
-//                                        if( k == 'address' || k == 'phone')
-//                                          temp = { '$k' : v};
-//                                          passengerData.addAll(temp);
-////                                      print('$k -> $v');
-//                                      });
-//                                    });
-////                                    passengerData.forEach((k,v){
-////                                      print('$k -> $v');
-////                                    });
-//                                print('length: ${passengerData.length}');
                                 },
                               )
                             ],
@@ -67,7 +47,7 @@ class _DriverState extends State<Driver> {
                       ],
 
 
-                      //subtitle: new Text(document['author']),
+
                     ),
                   );
                 }).toList(),

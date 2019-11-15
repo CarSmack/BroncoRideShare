@@ -11,17 +11,13 @@ class formCardSignUp extends StatefulWidget {
   dynamic keyPassword = GlobalKey<FormFieldState>();
   dynamic keyEmail = GlobalKey<FormFieldState>();
   dynamic keyAddress = GlobalKey<FormFieldState>();
+  dynamic keyFullName = GlobalKey<FormFieldState>();
 
   dynamic keyPhone = GlobalKey<FormFieldState>();
-   String _email, _password,_address,_phoneNum ;
+   String _email, _password,_address,_phoneNum, _fullName ;
   //Constructor-----------
-  formCardSignUp(this.keyEmail,this.keyPassword,this.keyAddress,this.keyPhone);
+  formCardSignUp(this.keyEmail,this.keyPassword,this.keyAddress,this.keyPhone,this.keyFullName);
   //this is made when Formcard does not need to return formfieldstate
-
-
-
-
-
 
   @override
   _formCardSignUpState createState() => _formCardSignUpState();
@@ -34,7 +30,7 @@ class _formCardSignUpState extends State<formCardSignUp> {
   Widget build(BuildContext context) {
     return new Container(
       width: double.infinity,
-      height: ScreenUtil.getInstance().setHeight(600),
+      height: ScreenUtil.getInstance().setHeight(800),
       decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(8.0),
@@ -58,6 +54,27 @@ class _formCardSignUpState extends State<formCardSignUp> {
               style: TextStyle(
                   fontFamily: "Poppins-Medium",
                   fontSize: ScreenUtil.getInstance().setSp(26))),
+            ),
+            SizedBox(
+              height: ScreenUtil.getInstance().setHeight(30),
+            ),
+            Text("Full Name",
+                style: TextStyle(
+                    fontFamily: "Poppins-Medium",
+                    fontSize: ScreenUtil.getInstance().setSp(26))),
+            TextFormField(
+              key: widget.keyFullName,
+
+              keyboardType: TextInputType.text,
+
+              onSaved: (String value) {
+
+                widget._fullName= value;
+
+              },
+              decoration: InputDecoration(
+                  hintText: "John Doe",
+                  hintStyle: TextStyle(color: Colors.grey, fontSize: 12.0)),
             ),
             SizedBox(
               height: ScreenUtil.getInstance().setHeight(30),
@@ -149,6 +166,7 @@ class _formCardSignUpState extends State<formCardSignUp> {
                   hintText: "213-123-3123",
                   hintStyle: TextStyle(color: Colors.grey, fontSize: 12.0)),
             ),
+
 
           ],
         ),
