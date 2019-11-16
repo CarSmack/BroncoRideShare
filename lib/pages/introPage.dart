@@ -47,27 +47,27 @@ class introPageState extends State<introPage> {
             child: PageView(
               children: <Widget>[
                 Carousel(
-                  title: "Welcome",
+                  title: "Welcome to Bronco Rideshare",
                   content:
-                      "Bronco RideShare is made for Only Cal Poly Pomona students",
+                      "Ridesharing app for Cal Poly Pomona students",
                   imageIcon: Icons.airport_shuttle,
                 ),
                 Carousel(
-                  title: "Search and Commute Safe",
+                  title: "Safe commutes",
                   content:
-                      "Commute More Safe With The Student Who live near you",
+                      "Share rides with your fellow Cal Poly Students",
                   imageIcon: Icons.search,
                 ),
                 Carousel(
                   title: "Make Friends and Ride",
                   content:
-                      "chatroom to communicate one another in a safe environment",
+                      "Get to know your commuters using built-in chat.",
                   imageIcon: Icons.verified_user,
                 ),
                 Carousel(
                   title: "Rate & Reward",
                   content:
-                      "Reward the Driver and Rate the Driver for safer community ",
+                      "Contribute to a safer experience with our rating system",
                   imageIcon: Icons.rate_review,
                 ),
               ],
