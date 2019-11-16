@@ -7,22 +7,23 @@ class Driver extends StatefulWidget {
 }
 
 class _DriverState extends State<Driver> {
-
   @override
   Widget build(BuildContext context) {
 //    Firestore firestore = Firestore.instance;
 
     return Material(
       child: StreamBuilder<QuerySnapshot>(
-        stream: Firestore.instance.collection('passengerPickUpData').snapshots(),
+        stream:
+            Firestore.instance.collection('passengerPickUpData').snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (snapshot.hasError)
-            return Text('Error: ${snapshot.error}');
+          if (snapshot.hasError) return Text('Error: ${snapshot.error}');
           switch (snapshot.connectionState) {
-            case ConnectionState.waiting: return Text('Loading...');
+            case ConnectionState.waiting:
+              return Text('Loading...');
             default:
               return ListView(
-                children: snapshot.data.documents.map((DocumentSnapshot document) {
+                children:
+                    snapshot.data.documents.map((DocumentSnapshot document) {
                   return Card(
                     child: ExpansionTile(
                       title: Text(document['username']),
@@ -37,17 +38,12 @@ class _DriverState extends State<Driver> {
                               Text(document.documentID.substring(10)),
                               FloatingActionButton(
                                 child: Text("Accept"),
-                                onPressed: (){
-                                },
+                                onPressed: () {},
                               )
                             ],
                           ),
-
                         ),
                       ],
-
-
-
                     ),
                   );
                 }).toList(),

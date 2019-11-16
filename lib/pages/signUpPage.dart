@@ -4,13 +4,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 class signup extends StatefulWidget {
   @override
   _signupState createState() => _signupState();
 }
 
 class _signupState extends State<signup> {
-
   // FirebaseAuth//
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final keyPassword = GlobalKey<FormFieldState>();
@@ -29,24 +29,22 @@ class _signupState extends State<signup> {
   }
 // ----End of Firebase Authentication------
 
-
   //Firestore
   Firestore firestore = Firestore.instance;
-  
+
   //add user Info to FireStore
-  void addUserInfoToFireStore(String email,String password, String address, String phoneNum, String fullName)
-  {
-    Map<String,dynamic> data = {
+  void addUserInfoToFireStore(String email, String password, String address,
+      String phoneNum, String fullName) {
+    Map<String, dynamic> data = {
       'name': fullName,
       'email': email,
       'password': password,
       'address': address,
-      'phone':  phoneNum,
-      };
+      'phone': phoneNum,
+    };
     firestore.collection('users').document('${data['email']}').setData(data);
-
   }
-  
+
   // lauch the url in order to let user to verify their email address
   _launchURL() async {
     const url = 'https://outlook.live.com/owa/';
@@ -57,7 +55,6 @@ class _signupState extends State<signup> {
     }
   }
   // ---------End of firestore--------------
-
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +67,8 @@ class _signupState extends State<signup> {
             child: Column(
           children: <Widget>[
             SizedBox(height: ScreenUtil.getInstance().setHeight(60)),
-            formCardSignUp(keyEmail, keyPassword, keyAddress, keyPhone, keyFullName),
+            formCardSignUp(
+                keyEmail, keyPassword, keyAddress, keyPhone, keyFullName),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
@@ -92,14 +90,17 @@ class _signupState extends State<signup> {
                       color: Colors.transparent,
                       child: InkWell(
                         onTap: () async {
-                          if (keyEmail.currentState.validate() && keyPassword.currentState.validate()) {
+                          if (keyEmail.currentState.validate() &&
+                              keyPassword.currentState.validate()) {
                             FirebaseUser user = await _handleRegister(
                                 keyEmail.currentState.value.toString().trim(),
-                                keyPassword.currentState.value.toString()
+                                keyPassword.currentState.value
+                                    .toString()
                                     .trim());
                             assert(user != null);
                             user.sendEmailVerification();
-                            addUserInfoToFireStore(keyEmail.currentState.value,
+                            addUserInfoToFireStore(
+                                keyEmail.currentState.value,
                                 keyPassword.currentState.value,
                                 keyAddress.currentState.value,
                                 keyPhone.currentState.value,

@@ -120,44 +120,47 @@ class _PassengerState extends State<Passenger> {
                   top: 250.0,
                   right: 15.0,
                   left: 10.0,
-                  child: FloatingActionButton.extended(
-                    heroTag: 'button1',
-                    onPressed: () {
-                      if (_date == null ||
-                          _time == null ||
-                          passengerAddressValue == null) {
-                        showDialog(
-                            context: context,
-                            builder: (context) {
-                              return CupertinoAlertDialog(
-                                title: Text("Invalid Input!"),
-                                content: Text(
-                                    "Please make sure to input Pick up Address, Date ,and Time correctly."),
-                                actions: <Widget>[
-                                  FlatButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: Text('Close')),
-                                ],
-                              );
-                            });
-                      } else {
-                        try {
-                          geoFlutterfire.addPickUpRequestToFirebase(
-                              passengerAddressValue, userdata, _date, _time);
-                        } catch (e) {
-                          print('Error from geoflutterfire${e.toString()}');
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: FloatingActionButton.extended(
+                      heroTag: 'button1',
+                      onPressed: () {
+                        if (_date == null ||
+                            _time == null ||
+                            passengerAddressValue == null) {
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return CupertinoAlertDialog(
+                                  title: Text("Invalid Input!"),
+                                  content: Text(
+                                      "Please make sure to input Pick up Address, Date ,and Time correctly."),
+                                  actions: <Widget>[
+                                    FlatButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: Text('Close')),
+                                  ],
+                                );
+                              });
+                        } else {
+                          try {
+                            geoFlutterfire.addPickUpRequestToFirebase(
+                                passengerAddressValue, userdata, _date, _time);
+                          } catch (e) {
+                            print('Error from geoflutterfire${e.toString()}');
+                          }
+                          passengerKey.currentState.showSnackBar(SnackBar(
+                            content: Text("Your request has been sent!"),
+                            behavior: SnackBarBehavior.floating,
+                          ));
                         }
-                        passengerKey.currentState.showSnackBar(SnackBar(
-                          content: Text("Your request has been sent!"),
-                          behavior: SnackBarBehavior.floating,
-                        ));
-                      }
-                    },
-                    label: Text('Find Driver'),
-                    icon: Icon(FontAwesome5.getIconData("taxi",
-                        weight: IconWeight.Solid)),
+                      },
+                      label: Text('Find Driver'),
+                      icon: Icon(FontAwesome5.getIconData("taxi",
+                          weight: IconWeight.Solid)),
+                    ),
                   ),
                 ),
                 Positioned(
@@ -190,13 +193,14 @@ class _PassengerState extends State<Passenger> {
                                       return Text('Loading...');
                                     default:
                                       return ListView(
-                                        children: snapshot.data.documents.where((test){
-                                          if(test.data['username'] == userdata.firebaseuser.email)
+                                        children: snapshot.data.documents
+                                            .where((test) {
+                                          if (test.data['username'] ==
+                                              userdata.firebaseuser.email)
                                             return true;
                                           else
                                             return false;
-                                        })
-                                            .map((DocumentSnapshot document) {
+                                        }).map((DocumentSnapshot document) {
                                           return Card(
                                             child: ExpansionTile(
                                               title: Text(
@@ -254,64 +258,65 @@ class _PassengerState extends State<Passenger> {
                                                               child: Text(
                                                                   "Driver Info"),
                                                               onPressed: () {
-
-                                                                if (document['rideStatus'] == 'pending')
-                                                                  {
-                                                                    showDialog(
-                                                                        context:
-                                                                        context,
-                                                                        builder:
-                                                                            (context) {
-                                                                          return AlertDialog(
-                                                                            title: Text(
-                                                                                'Your request is still pending ....'),
-                                                                            actions: <
-                                                                                Widget>[
-                                                                              new FlatButton(
-                                                                                child:
-                                                                                new Text('Close'),
-                                                                                onPressed:
-                                                                                    () {
-                                                                                  Navigator.of(context).pop();
-                                                                                },
-                                                                              )
-                                                                            ],
-                                                                          );
-                                                                        });
-                                                                  }
-
-                                                                else
-                                                                  {
-                                                                Firestore.instance.collection('users').document('${document['driverID']}').get().then((onValue){
+                                                                if (document[
+                                                                        'rideStatus'] ==
+                                                                    'pending') {
                                                                   showDialog(
                                                                       context:
-                                                                      context,
+                                                                          context,
                                                                       builder:
                                                                           (context) {
                                                                         return AlertDialog(
-                                                                          title: Text(
-                                                                              'Driver Information'),
-                                                                          content: Text(
-                                                                              "Driver Name: ${onValue.data['name']} \n\n"
-                                                                                  "Phone Number: ${onValue.data['phone']} \n\n"
-                                                                                  "Email: ${onValue.data['email']}"),
+                                                                          title:
+                                                                              Text('Your request is still pending ....'),
                                                                           actions: <
                                                                               Widget>[
                                                                             new FlatButton(
-                                                                              child:
-                                                                              new Text('Close'),
-                                                                              onPressed:
-                                                                                  () {
+                                                                              child: new Text('Close'),
+                                                                              onPressed: () {
                                                                                 Navigator.of(context).pop();
                                                                               },
                                                                             )
                                                                           ],
                                                                         );
                                                                       });
-                                                                }).catchError((onError){
-                                                                  print("it is an error $onError");
-                                                                });
-                                                                  }
+                                                                } else {
+                                                                  Firestore
+                                                                      .instance
+                                                                      .collection(
+                                                                          'users')
+                                                                      .document(
+                                                                          '${document['driverID']}')
+                                                                      .get()
+                                                                      .then(
+                                                                          (onValue) {
+                                                                    showDialog(
+                                                                        context:
+                                                                            context,
+                                                                        builder:
+                                                                            (context) {
+                                                                          return AlertDialog(
+                                                                            title:
+                                                                                Text('Driver Information'),
+                                                                            content: Text("Driver Name: ${onValue.data['name']} \n\n"
+                                                                                "Phone Number: ${onValue.data['phone']} \n\n"
+                                                                                "Email: ${onValue.data['email']}"),
+                                                                            actions: <Widget>[
+                                                                              new FlatButton(
+                                                                                child: new Text('Close'),
+                                                                                onPressed: () {
+                                                                                  Navigator.of(context).pop();
+                                                                                },
+                                                                              )
+                                                                            ],
+                                                                          );
+                                                                        });
+                                                                  }).catchError(
+                                                                          (onError) {
+                                                                    print(
+                                                                        "it is an error $onError");
+                                                                  });
+                                                                }
                                                               },
                                                             ),
                                                           )
@@ -323,7 +328,6 @@ class _PassengerState extends State<Passenger> {
                                               ],
                                             ),
                                           );
-
                                         }).toList(),
                                       );
                                   }

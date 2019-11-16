@@ -28,7 +28,8 @@ class googleMap extends StatefulWidget {
 
 class _googleMapState extends State<googleMap> {
   static var geolocator = Geolocator();
-  static var locationOptions = LocationOptions(accuracy: LocationAccuracy.high, distanceFilter: 10);
+  static var locationOptions =
+      LocationOptions(accuracy: LocationAccuracy.high, distanceFilter: 10);
   static bool liveButton = true;
   StreamSubscription<Position> streamSubscription;
 
@@ -98,7 +99,7 @@ class _googleMapState extends State<googleMap> {
                           color: Colors.black,
                         ),
                       ),
-                      hintText: "pick up",
+                      hintText: "Starting destination",
                       border: InputBorder.none,
                       contentPadding: EdgeInsets.only(left: 15.0, top: 16.0),
                     ),
@@ -125,7 +126,7 @@ class _googleMapState extends State<googleMap> {
                   ),
                   child: TextField(
                     cursorColor: Colors.black,
-                    controller: appState.destinationTextController,
+                    controller: appState.pickUpDestinationTextController,
                     textInputAction: TextInputAction.go,
                     onSubmitted: (value) {
                       appState.sendRequest(value);
@@ -140,61 +141,106 @@ class _googleMapState extends State<googleMap> {
                           color: Colors.black,
                         ),
                       ),
-                      hintText: "destination?",
+                      hintText: "Pick Up Location",
                       border: InputBorder.none,
                       contentPadding: EdgeInsets.only(left: 15.0, top: 16.0),
                     ),
                   ),
                 ),
               ),
-//              Positioned(
-//                top: MediaQuery.of(context).size.height -175,
-//                left: MediaQuery.of(context).size.width - 66,
-//                child:
-//              ),
               Positioned(
-//                top: MediaQuery.of(context).size.height -175,
-                left: MediaQuery.of(context).size.width - 66,
+                top: 160.0,
+                right: 15.0,
+                left: 15.0,
+                child: Container(
+                  height: 50.0,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(3.0),
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                          color: Colors.grey,
+                          offset: Offset(1.0, 5.0),
+                          blurRadius: 10,
+                          spreadRadius: 3)
+                    ],
+                  ),
+                  child: TextField(
+                    cursorColor: Colors.black,
+                    controller: appState.finalDestinationTextController,
+                    textInputAction: TextInputAction.go,
+                    onSubmitted: (value) {
+                      if (appState.finalDestinationTextController != null) {
+                        print(
+                            'debug third textfield ${appState.finalDestinationTextController.text} and $value');
+                        print(
+                            'debug third textfield ${appState.pickUpDestinationTextController.text}');
+                        appState
+                            .sendRequestFromPickUpLocationToFinalDestination(
+                                appState.pickUpDestinationTextController.text,
+                                value);
+                      }
+                    },
+                    decoration: InputDecoration(
+                      icon: Container(
+                        margin: EdgeInsets.only(left: 20, top: 5),
+                        width: 10,
+                        height: 10,
+                        child: Icon(
+                          Icons.local_taxi,
+                          color: Colors.black,
+                        ),
+                      ),
+                      hintText: "Final Destination",
+                      border: InputBorder.none,
+                      contentPadding: EdgeInsets.only(left: 15.0, top: 16.0),
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                right: 10,
                 bottom: 125,
                 child: Column(
                   children: <Widget>[
                     FloatingActionButton(
-
+                      child: Icon(Icons.clear),
+                      heroTag: 'clearRoute',
+                      backgroundColor: Colors.white,
+                      onPressed: () {
+                        appState.clearRoute();
+                      },
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    FloatingActionButton(
                       child: Icon(Icons.navigation),
                       heroTag: 'buttonNavigation',
                       backgroundColor: Colors.white,
-                      onPressed:  () {
-                        if(liveButton) {
-                           streamSubscription = geolocator.getPositionStream(locationOptions).listen(
-                                  (Position position) {
-                                print(position == null ? 'Unknown' : position
-                                    .latitude.toString() + ', ' + position
-                                    .longitude.toString());
-                                appState.mapController.animateCamera(CameraUpdate.newLatLng(LatLng(position.latitude,position.longitude)));
-                              });
+                      onPressed: () {
+                        if (liveButton) {
+                          streamSubscription = geolocator
+                              .getPositionStream(locationOptions)
+                              .listen((Position position) {
+                            print(position == null
+                                ? 'Unknown'
+                                : position.latitude.toString() +
+                                    ', ' +
+                                    position.longitude.toString());
+                            appState.mapController.animateCamera(
+                                CameraUpdate.newLatLngZoom(
+                                    LatLng(
+                                        position.latitude, position.longitude),
+                                    18));
+                          });
                           liveButton = false;
+                        } else {
+                          streamSubscription.cancel();
+                          liveButton = true;
                         }
-                        else
-                          {
-                            streamSubscription.cancel();
-                            liveButton = true;
-                          }
-//                        print(liveButton);
-//                        if(liveButton) {
-//
-//                          liveButton = false;
-//                        }
-//                        else
-//                          {
-//
-////                            positionStream.listen((onData){}).cancel();
-//                        liveButton = true;
-////                            setState(() {
-////                              liveButton = true;
-////                            });
-//                          }
-
-                      } ,
+                      },
                     ),
                     SizedBox(
                       height: 20,
@@ -210,7 +256,8 @@ class _googleMapState extends State<googleMap> {
                             builder: (context) {
                               return Container(
                                 constraints: BoxConstraints(
-                                    minHeight: MediaQuery.of(context).size.height),
+                                    minHeight:
+                                        MediaQuery.of(context).size.height),
                                 height: MediaQuery.of(context).size.height,
                                 child: StreamBuilder<QuerySnapshot>(
                                   stream: Firestore.instance
@@ -224,29 +271,40 @@ class _googleMapState extends State<googleMap> {
                                       case ConnectionState.waiting:
                                         return Text('Loading...');
                                       default:
-                                        return ListView (
-                                          children:  snapshot.data.documents.where((test) {
-                                            if(test.data['rideStatus'] == 'pending' && test.data['username'] != userdata.firebaseuser.email )
+                                        return ListView(
+                                          children: snapshot.data.documents
+                                              .where((test) {
+                                            if (test.data['rideStatus'] ==
+                                                    'pending' &&
+                                                test.data['username'] !=
+                                                    userdata.firebaseuser.email)
                                               return true;
-                                            else if (test.data['driverID'] == userdata.firebaseuser.email && test.data['rideStatus'] == 'accept')
+                                            else if (test.data['driverID'] ==
+                                                    userdata
+                                                        .firebaseuser.email &&
+                                                test.data['rideStatus'] ==
+                                                    'accept')
                                               return true;
                                             else
                                               return false;
-
-                                          })
-                                              .map((DocumentSnapshot document) {
+                                          }).map((DocumentSnapshot document) {
                                             return Card(
                                               child: ExpansionTile(
-                                                title: Text("${document['username']} (${document['rideStatus']})",
+                                                title: Text(
+                                                  "${document['username']} (${document['rideStatus']})",
                                                   style: TextStyle(
-                                                      color: Colors.black),),
-                                                trailing: Icon(Icons.more_vert,color: Colors.black,),
+                                                      color: Colors.black),
+                                                ),
+                                                trailing: Icon(
+                                                  Icons.more_vert,
+                                                  color: Colors.black,
+                                                ),
                                                 children: <Widget>[
                                                   FlatButton(
                                                     child: Column(
                                                       mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
                                                       children: <Widget>[
                                                         Column(
                                                           children: <Widget>[
@@ -261,14 +319,18 @@ class _googleMapState extends State<googleMap> {
                                                         Row(
                                                           children: <Widget>[
                                                             Expanded(
-                                                              child: RaisedButton(
-                                                                child: Text("See On Map"),
+                                                              child:
+                                                                  RaisedButton(
+                                                                child: Text(
+                                                                    "See On Map"),
                                                                 onPressed: () {
 //
                                                                   GeoPoint
-                                                                  passengerLatLng =
-                                                                  document['position']
-                                                                  ['geopoint'];
+                                                                      passengerLatLng =
+                                                                      document[
+                                                                              'position']
+                                                                          [
+                                                                          'geopoint'];
                                                                   print(
                                                                       '${passengerLatLng.latitude}  : ${passengerLatLng.longitude}');
                                                                   appState.addMarker(
@@ -278,103 +340,98 @@ class _googleMapState extends State<googleMap> {
                                                                           passengerLatLng
                                                                               .longitude),
                                                                       document[
-                                                                      'address']);
+                                                                          'address']);
                                                                 },
                                                               ),
                                                             ),
                                                             Expanded(
-                                                              child: RaisedButton(
-                                                                child: Text("Accept"),
+                                                              child:
+                                                                  RaisedButton(
+                                                                child: Text(
+                                                                    "Accept"),
                                                                 onPressed: () {
-                                                                  String _documentID =
-                                                                      document.documentID;
-                                                                  TextEditingController _textFieldController = TextEditingController();
+                                                                  String
+                                                                      _documentID =
+                                                                      document
+                                                                          .documentID;
+                                                                  TextEditingController
+                                                                      _textFieldController =
+                                                                      TextEditingController();
 
                                                                   showDialog(
-                                                                      context: context,
-                                                                      builder: (context) {
-                                                                        if(document['rideStatus'] == 'accept')
-                                                                        {
+                                                                      context:
+                                                                          context,
+                                                                      builder:
+                                                                          (context) {
+                                                                        if (document['rideStatus'] ==
+                                                                            'accept') {
                                                                           return AlertDialog(
-                                                                            title: Text("You already accepted the request!"),
+                                                                            title:
+                                                                                Text("You already accepted the request!"),
                                                                             actions: <Widget>[
                                                                               FlatButton(
                                                                                 child: Text("Close"),
-                                                                                onPressed: () => Navigator.pop(context ),
+                                                                                onPressed: () => Navigator.pop(context),
                                                                               )
                                                                             ],
-
                                                                           );
-                                                                        }
-                                                                        else {
+                                                                        } else {
                                                                           return AlertDialog(
-                                                                            title: Text(
-                                                                                'Note to passenger:'),
+                                                                            title:
+                                                                                Text('Note to passenger:'),
                                                                             content:
-                                                                            TextField(
-                                                                              controller:
-                                                                              _textFieldController,
-                                                                              decoration:
-                                                                              InputDecoration(
-                                                                                  hintText:
-                                                                                  "Optional"),
+                                                                                TextField(
+                                                                              controller: _textFieldController,
+                                                                              decoration: InputDecoration(hintText: "Optional"),
                                                                             ),
-                                                                            actions: <
-                                                                                Widget>[
+                                                                            actions: <Widget>[
                                                                               new FlatButton(
-                                                                                child: new Text(
-                                                                                    'Confirm'),
-                                                                                onPressed:
-                                                                                    () {
-                                                                                  Firestore
-                                                                                      .instance
-                                                                                      .collection(
-                                                                                      'passengerPickUpData')
-                                                                                      .document(
-                                                                                      _documentID)
-                                                                                      .updateData(
-                                                                                      {
-                                                                                        'driverID':
-                                                                                        '${userdata
-                                                                                            .firebaseuser
-                                                                                            .email}',
-                                                                                        'rideStatus':
-                                                                                        'accept',
-                                                                                        'driverNote': _textFieldController
-                                                                                            .value
-                                                                                            .text,
-                                                                                      });
-                                                                                  Navigator
-                                                                                      .of(
-                                                                                      context)
-                                                                                      .pop();
+                                                                                child: new Text('Confirm'),
+                                                                                onPressed: () {
+                                                                                  Firestore.instance.collection('passengerPickUpData').document(_documentID).updateData({
+                                                                                    'driverID': '${userdata.firebaseuser.email}',
+                                                                                    'rideStatus': 'accept',
+                                                                                    'driverNote': _textFieldController.value.text,
+                                                                                  });
+                                                                                  Navigator.of(context).pop();
                                                                                 },
                                                                               )
                                                                             ],
                                                                           );
                                                                         }
                                                                       });
-
                                                                 },
                                                               ),
                                                             ),
                                                             Expanded(
-                                                              child: RaisedButton(
-                                                                child: Text('Get Direction'),
+                                                              child:
+                                                                  RaisedButton(
+                                                                child: Text(
+                                                                    'Get Direction'),
                                                                 onPressed: () {
-                                                                  appState.destinationTextController.text = document['address'];
-                                                                  Navigator.pop(context);
-                                                                  appState.sendRequest('${document['address']}');
+                                                                  appState.pickUpDestinationTextController
+                                                                          .text =
+                                                                      document[
+                                                                          'address'];
+                                                                  Navigator.pop(
+                                                                      context);
+                                                                  appState.sendRequest(
+                                                                      '${document['address']}');
+                                                                  appState.finalDestinationTextController
+                                                                          .text =
+                                                                      "Cal Poly Pomona";
+                                                                  appState.sendRequestFromPickUpLocationToFinalDestination(
+                                                                      document[
+                                                                          'address'],
+                                                                      appState
+                                                                          .finalDestinationTextController
+                                                                          .text);
 //                                                              appState.mapController.moveCamera(CameraUpdate.zoomOut());
-
-
                                                                 },
                                                               ),
                                                             )
-
                                                           ],
                                                         )
-
                                                       ],
                                                     ),
                                                   ),
@@ -390,10 +447,9 @@ class _googleMapState extends State<googleMap> {
                             });
                       },
                     ),
-
                   ],
-                ) ,
-              )
+                ),
+              ),
             ],
           );
   }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:broncorideshare/utils/carouselForIntroPageWidget.dart';
 import 'package:broncorideshare/pages/signInPage.dart';
 
-
 class introPage extends StatefulWidget {
   @override
   introPageState createState() {
@@ -49,22 +48,26 @@ class introPageState extends State<introPage> {
               children: <Widget>[
                 Carousel(
                   title: "Welcome",
-                  content: "Bronco RideShare is made for Only Cal Poly Pomona students",
+                  content:
+                      "Bronco RideShare is made for Only Cal Poly Pomona students",
                   imageIcon: Icons.airport_shuttle,
                 ),
                 Carousel(
                   title: "Search and Commute Safe",
-                  content: "Commute More Safe With The Student Who live near you",
+                  content:
+                      "Commute More Safe With The Student Who live near you",
                   imageIcon: Icons.search,
                 ),
                 Carousel(
-                  title:"Make Friends and Ride",
-                  content: "chatroom to communicate one another in a safe environment",
+                  title: "Make Friends and Ride",
+                  content:
+                      "chatroom to communicate one another in a safe environment",
                   imageIcon: Icons.verified_user,
                 ),
                 Carousel(
                   title: "Rate & Reward",
-                  content:  "Reward the Driver and Rate the Driver for safer community ",
+                  content:
+                      "Reward the Driver and Rate the Driver for safer community ",
                   imageIcon: Icons.rate_review,
                 ),
               ],
@@ -84,8 +87,12 @@ class introPageState extends State<introPage> {
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
                           fontSize: 16.0)),
-                  onPressed: () =>
-                  lastPage ? null : Navigator.push(context, MaterialPageRoute(builder: (context)=> authenticationPage())),
+                  onPressed: () => lastPage
+                      ? null
+                      : Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => authenticationPage())),
                 ),
                 FlatButton(
                   child: Text(lastPage ? "GOT IT" : "NEXT",
@@ -95,10 +102,13 @@ class introPageState extends State<introPage> {
                           fontSize: 16.0)),
                   onPressed: () => lastPage
 //                      ? Navigator.pushNamed(context, '/authen')
-                      ? Navigator.push(context, MaterialPageRoute(builder: (context)=> authenticationPage()))
+                      ? Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => authenticationPage()))
                       : controller.nextPage(
-                      duration: Duration(milliseconds: 300),
-                      curve: Curves.easeIn),
+                          duration: Duration(milliseconds: 300),
+                          curve: Curves.easeIn),
                 ),
               ],
             ),

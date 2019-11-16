@@ -22,24 +22,23 @@ class geoFlutterFire {
 
   /*
   * Get a LatLg of a location and push the data into the FireStore Database*/
-  void addPickUpRequestToFirebase(String pickUpLocation,
-      UserData userdata, String date, String time) async {
+  void addPickUpRequestToFirebase(String pickUpLocation, UserData userdata,
+      String date, String time) async {
     List<Placemark> placemark =
         await Geolocator().placemarkFromAddress(pickUpLocation);
     double latitude = placemark[0].position.latitude;
     double longitude = placemark[0].position.longitude;
     print('latitude of pickuplocation ${latitude}');
     print('longitude of pickuplocation ${longitude}');
-    _firestore.collection('passengerPickUpData').add(
-        {'username': '${userdata.firebaseuser.email}',
-          'position': geo.point(latitude: latitude, longitude: longitude).data,
-          'date' : date,
-          'time' : time,
-          'address': pickUpLocation,
-          'driverID': "",
-          'driverNote': "",
-          'rideStatus': 'pending',
-
-        });
+    _firestore.collection('passengerPickUpData').add({
+      'username': '${userdata.firebaseuser.email}',
+      'position': geo.point(latitude: latitude, longitude: longitude).data,
+      'date': date,
+      'time': time,
+      'address': pickUpLocation,
+      'driverID': "",
+      'driverNote': "",
+      'rideStatus': 'pending',
+    });
   }
 }

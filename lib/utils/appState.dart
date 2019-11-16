@@ -6,15 +6,18 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:broncorideshare/utils/googleMapDirectionRequest.dart';
 
 class AppState with ChangeNotifier {
-  
   static LatLng _initialPosition;
   LatLng _lastPosition = _initialPosition;
+  static LatLng _pickUpPosition;
   final Set<Marker> _markers = {};
   final Set<Polyline> _polyLines = {};
   GoogleMapController _mapController;
   GoogleMapDirectionRequest _googleMapsServices = GoogleMapDirectionRequest();
   TextEditingController locationTextController = TextEditingController();
-  TextEditingController destinationTextController = TextEditingController();
+  TextEditingController pickUpDestinationTextController =
+      TextEditingController();
+  TextEditingController finalDestinationTextController =
+      TextEditingController();
   LatLng get initialPosition => _initialPosition;
   LatLng get lastPosition => _lastPosition;
   GoogleMapDirectionRequest get googleMapsServices => _googleMapsServices;
@@ -47,10 +50,25 @@ class AppState with ChangeNotifier {
     notifyListeners();
   }
 
+  void clearRoute() {
+    _polyLines.clear();
+    _markers.clear();
+    notifyListeners();
+  }
+
   // Add Marker to the Map
   void addMarker(LatLng location, String address) {
     _markers.add(Marker(
         markerId: MarkerId(_lastPosition.toString()),
+        position: location,
+        infoWindow: InfoWindow(title: address, snippet: "go here"),
+        icon: BitmapDescriptor.defaultMarker));
+    notifyListeners();
+  }
+
+  void addMoreMarker(LatLng location, String address, String markerID) {
+    _markers.add(Marker(
+        markerId: MarkerId(markerID),
         position: location,
         infoWindow: InfoWindow(title: address, snippet: "go here"),
         icon: BitmapDescriptor.defaultMarker));
@@ -106,7 +124,7 @@ class AppState with ChangeNotifier {
   // send Request using Direction API to get the poly points from current location to Destionation
   void sendRequest(String intendedLocation) async {
     List<Placemark> placemark =
-    await Geolocator().placemarkFromAddress(intendedLocation);
+        await Geolocator().placemarkFromAddress(intendedLocation);
     double latitude = placemark[0].position.latitude;
     double longitude = placemark[0].position.longitude;
     LatLng destination = LatLng(latitude, longitude);
@@ -119,14 +137,54 @@ class AppState with ChangeNotifier {
     notifyListeners();
   }
 
+  void sendRequestFromPickUpLocationToFinalDestination(
+      String pickUpLocation, String finalLocation) async {
+    List<Placemark> placemarkForFinalLocation =
+        await Geolocator().placemarkFromAddress(finalLocation);
+    double finalLocationlatitude =
+        placemarkForFinalLocation[0].position.latitude;
+    double finalLocationlongitude =
+        placemarkForFinalLocation[0].position.longitude;
+    LatLng finalDestionation =
+        LatLng(finalLocationlatitude, finalLocationlongitude);
+
+    List<Placemark> placemarkForpickUplocation =
+        await Geolocator().placemarkFromAddress(pickUpLocation);
+    double pickupLocationlatitude =
+        placemarkForpickUplocation[0].position.latitude;
+    double pickupLocationlongitude =
+        placemarkForpickUplocation[0].position.longitude;
+    LatLng pickUpDestination =
+        LatLng(pickupLocationlatitude, pickupLocationlongitude);
+
+    addMoreMarker(
+        finalDestionation, finalLocation, finalDestionation.toString());
+    print(
+        "${pickUpDestination.toString()} and ${finalDestionation.toString()}");
+    String route = await _googleMapsServices.getRouteCoordinates(
+        pickUpDestination, finalDestionation);
+    //Debug printing
+    _pickUpPosition = pickUpDestination;
+    print("Route2: $route");
+    createRouteFromPickUpLocationToFinalDestination(route);
+    notifyListeners();
+  }
+
+  void createRouteFromPickUpLocationToFinalDestination(String encondedPoly) {
+    _polyLines.add(Polyline(
+        polylineId: PolylineId(_pickUpPosition.toString()),
+        width: 10,
+        points: _convertToLatLng(_decodePoly(encondedPoly)),
+        color: Colors.blue));
+    notifyListeners();
+  }
+
   // make camera move when user move
   void onCameraMove(CameraPosition position) {
-
     _lastPosition = position.target;
 
     notifyListeners();
   }
-
 
   // create Google Map controller
   void onCreated(GoogleMapController controller) {

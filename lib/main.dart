@@ -9,23 +9,25 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
   //State Management & DI
-  return runApp(MultiProvider(providers: [
-    ChangeNotifierProvider.value(value: AppState(),),
-    ChangeNotifierProvider.value(value: UserData(),)
-  ],
-    child: MyApp(),));
+  return runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider.value(
+        value: AppState(),
+      ),
+      ChangeNotifierProvider.value(
+        value: UserData(),
+      )
+    ],
+    child: MyApp(),
+  ));
 }
 
-
-
 class MyApp extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Bronco RideShare',
       theme: ThemeData(
-
         primaryColor: Colors.red,
         accentColor: Colors.yellowAccent,
       ),

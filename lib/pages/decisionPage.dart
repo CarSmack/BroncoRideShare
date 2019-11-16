@@ -3,24 +3,21 @@ import 'package:broncorideshare/pages/passengerPage.dart';
 import 'package:flutter/material.dart';
 
 class decisionPage extends StatefulWidget {
-
   @override
   _decisionPageState createState() => _decisionPageState();
 }
 
 class _decisionPageState extends State<decisionPage> {
-
   /*
   * boolean driver : To make sure that the user pick Driver or Passenger Page
    */
   bool driver;
 
-
   @override
   Widget build(BuildContext context) {
-      return Scaffold(
+    return Scaffold(
         backgroundColor: Colors.greenAccent,
-        body:Center(
+        body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -28,52 +25,46 @@ class _decisionPageState extends State<decisionPage> {
               FlatButton(
                 child: Column(
                   children: <Widget>[
-                    Text("Are you a ...", textScaleFactor: 2.0,)
+                    Text(
+                      "Are you a ...",
+                      textScaleFactor: 2.0,
+                    )
                   ],
                 ),
-
               ),
               SizedBox(
                 height: 50,
               ),
-
               FlatButton(
-                onPressed: (){
+                onPressed: () {
                   setState(() {
                     driver = true;
                   });
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=> mainPage()));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => mainPage()));
                 },
                 color: Colors.orange,
                 padding: EdgeInsets.all(20.0),
                 child: Column(
-                  children: <Widget>[
-                    Icon(Icons.bookmark),
-                    Text("Driver")
-                  ],
+                  children: <Widget>[Icon(Icons.bookmark), Text("Driver")],
                 ),
               ),
               FlatButton(
-                onPressed: (){
+                onPressed: () {
                   setState(() {
-                    driver =false;
+                    driver = false;
                   });
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=> Passenger()));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Passenger()));
                 },
                 color: Colors.blueGrey,
                 padding: EdgeInsets.all(20.0),
                 child: Column(
-                  children: <Widget>[
-                    Icon(Icons.bookmark),
-                    Text("Passenger")
-                  ],
+                  children: <Widget>[Icon(Icons.bookmark), Text("Passenger")],
                 ),
               )
-
             ],
           ),
-        )
-
-      );
+        ));
   }
-  }
+}
