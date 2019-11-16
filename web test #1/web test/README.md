@@ -4,11 +4,10 @@
 - [About this project](#about)
 - [Features](#features)
 - [Requirements](#requirements)
-- [Technical Information](#technical_information)
 
 <a name="about"></a>
 ## About
-This site showcases the features of the rideshare app.
+This site showcases the features of the Bronco Rideshare app.
 
 <a name="features"></a>
 ## Features
