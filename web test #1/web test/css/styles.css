@@ -41,12 +41,12 @@ Also last css rule has priority
 
 
 body {
-  font-family: "Montserrat";
+  font-family: "Josefin Slab";
   text-align: center;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: "Montserrat-Bold";
+  font-family: "Josefin Slab";
 }
 
 p {
@@ -55,7 +55,7 @@ p {
 
 /* Headings */
 .big-heading {
-  font-family: "Montserrat-Black";
+  font-family: "Josefin Slab";
   font-size: 3.5rem;
   line-height: 1.5;
 }
@@ -72,7 +72,7 @@ p {
 
 /* Sections */
 .colored-section {
-  background-color: #2fa32f;
+  background-color: #269e32;
   color: #fff;
 }
 
@@ -86,7 +86,7 @@ p {
 }
 
 .navbar-brand {
-  font-family: "Ubuntu";
+  font-family: "Josefin Slab";
   font-size: 2.5rem;
   font-weight: bold;
 }
@@ -97,7 +97,7 @@ p {
 
 .nav-link {
   font-size: 1.5rem;
-  font-family: "Montserrat-Light";
+  font-family: "Josefin Slab";
 }
 
 /* Buttons */
@@ -108,9 +108,11 @@ p {
 /* Title Section */
 
 #title {
-  background-color: #2fa32f;
+  background-color: #269e32;
   color: #fff;
   text-align: left;
+  font-size: 1rem;
+
 }
 
 /* Title Image */
@@ -162,6 +164,8 @@ p {
 .testimonial-text {
   font-size: 1.5rem;
   line-height: 1.5;
+  font-weight: bold;
+
 }
 
 .testimonial-image {
