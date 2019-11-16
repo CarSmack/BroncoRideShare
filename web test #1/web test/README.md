@@ -1,5 +1,5 @@
-# Angela Yu Web Development - Intermediate Bootstrap
-# HTML/CSS & Bootstrap - Tin Dog Website
+# BroncoRideshare Website
+# HTML/CSS & Bootstrap
 
 - [About this project](#about)
 - [Features](#features)
@@ -8,8 +8,7 @@
 
 <a name="about"></a>
 ## About
-In this code along I refactored the provided starter files using
-HTML, CSS, and Bootstrap.
+This site showcases the features of the rideshare app.
 
 <a name="features"></a>
 ## Features
@@ -22,13 +21,3 @@ HTML, CSS, and Bootstrap.
 - HTML
 - CSS
 - Bootstrap
-
-<a name="technical_information"></a>
-## Technical Information
-
-To run the site on your local machine
-
-1. Download or clone the repository onto your machine.
-2. Extract the .zip file.
-3. Open .html file in your browser.
-5. Alternatively you can click on the following [Site Link](https://jsoto3000.github.io/js-TinDog-Start-master/ "Site Link") to view.
