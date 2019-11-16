@@ -1,32 +1,3 @@
-/*
-
-Code Refactoring
-
-1. Readability
-2. Modularity
-  Allows you to drill down on a specifiv section ad figure out
-  problems, or change a particular section, without affecting
-  the rest of the website
-3. Effciiency
-4. Length
-
-*/
-
-/*
-
-Hierarchy over selectors:
-
-1. IDs (use them sparingly)
-2. Classes
-3. HTML Elements
-
-Inline styles are more specific than internal or external css styles
-(but avoid them at all costs)
-
-Also last css rule has priority
-
-*/
-
  .logo-image{
     width: 150px;
     height: 150px;
@@ -35,7 +6,7 @@ Also last css rule has priority
 
 
     margin-top: -3px;
-    margin-left: 50px;
+    margin-left: 5px;
 }
 
 
@@ -96,7 +67,7 @@ p {
 }
 
 .nav-link {
-  font-size: 1.5rem;
+  font-size: 2rem;
   font-family: "Josefin Slab";
 }
 
