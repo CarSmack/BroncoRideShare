@@ -72,7 +72,7 @@ p {
 
 /* Sections */
 .colored-section {
-  background-color: #74e36a;
+  background-color: #2fa32f;
   color: #fff;
 }
 
@@ -108,7 +108,7 @@ p {
 /* Title Section */
 
 #title {
-  background-color: #74e36a;
+  background-color: #2fa32f;
   color: #fff;
   text-align: left;
 }
@@ -165,7 +165,7 @@ p {
 }
 
 .testimonial-image {
-  width: 15%;
+  width: 20%;
   border-radius: 0%;
   margin: 1px;
 }
