@@ -15,6 +15,7 @@ class _DriverState extends State<Driver> {
       child: StreamBuilder<QuerySnapshot>(
         stream:
             Firestore.instance.collection('passengerPickUpData').snapshots(),
+
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) return Text('Error: ${snapshot.error}');
           switch (snapshot.connectionState) {
