@@ -62,7 +62,8 @@ class _welcomePageState extends State<welcomePage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  CircularProgressIndicator(),
+                  CircularProgressIndicator(
+                  ),
                   Padding(
                     padding: EdgeInsets.only(top: 20.0),
                   ),

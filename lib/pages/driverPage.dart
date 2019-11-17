@@ -8,6 +8,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:broncorideshare/users/UserData.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:flutter_google_places/flutter_google_places.dart';
+import 'package:google_maps_webservice/places.dart';
+
 
 class mainPage extends StatefulWidget {
   @override
@@ -33,11 +36,15 @@ class _googleMapState extends State<googleMap> {
   static bool liveButton = true;
   StreamSubscription<Position> streamSubscription;
 
+
+
+
   @override
   Widget build(BuildContext context) {
     /*appState is for DI and State Management throuhgout the app with the Class Provider*/
     final appState = Provider.of<AppState>(context);
     final userdata = Provider.of<UserData>(context);
+
 
     /*Debug purpose to check the current position of the user*/
     print("Current position ${appState.lastPosition.toString()}");
@@ -341,6 +348,7 @@ class _googleMapState extends State<googleMap> {
                                                                               .longitude),
                                                                       document[
                                                                           'address']);
+                                                                  Navigator.pop(context);
                                                                 },
                                                               ),
                                                             ),
@@ -357,49 +365,72 @@ class _googleMapState extends State<googleMap> {
                                                                   TextEditingController
                                                                       _textFieldController =
                                                                       TextEditingController();
+                                                                  Firestore.instance.collection('users').document('${document['username']}').get().then((onValue){
+                                                                    showDialog(
+                                                                        context:
+                                                                        context,
+                                                                        builder:
+                                                                            (context) {
 
-                                                                  showDialog(
-                                                                      context:
-                                                                          context,
-                                                                      builder:
-                                                                          (context) {
-                                                                        if (document['rideStatus'] ==
-                                                                            'accept') {
-                                                                          return AlertDialog(
-                                                                            title:
-                                                                                Text("You already accepted the request!"),
-                                                                            actions: <Widget>[
-                                                                              FlatButton(
-                                                                                child: Text("Close"),
-                                                                                onPressed: () => Navigator.pop(context),
-                                                                              )
-                                                                            ],
-                                                                          );
-                                                                        } else {
-                                                                          return AlertDialog(
-                                                                            title:
-                                                                                Text('Note to passenger:'),
-                                                                            content:
-                                                                                TextField(
-                                                                              controller: _textFieldController,
-                                                                              decoration: InputDecoration(hintText: "Optional"),
-                                                                            ),
-                                                                            actions: <Widget>[
-                                                                              new FlatButton(
-                                                                                child: new Text('Confirm'),
-                                                                                onPressed: () {
-                                                                                  Firestore.instance.collection('passengerPickUpData').document(_documentID).updateData({
-                                                                                    'driverID': '${userdata.firebaseuser.email}',
-                                                                                    'rideStatus': 'accept',
-                                                                                    'driverNote': _textFieldController.value.text,
-                                                                                  });
-                                                                                  Navigator.of(context).pop();
-                                                                                },
-                                                                              )
-                                                                            ],
-                                                                          );
-                                                                        }
-                                                                      });
+                                                                          if (document['rideStatus'] ==
+                                                                              'accept') {
+
+
+//                                                                            Firestore.instance.collection('users').document('${document['username']}').get().then((onValue){
+//                                                                              print("${onValue.data['phone']}");
+//                                                                              print("${onValue.data['name']}");
+//                                                                              print("${onValue.data['email']}");
+//                                                                              passengerInfo.add(onValue.data['phone']);
+//                                                                              print('${passengerInfo.isEmpty}');
+//
+//                                                                            });
+//                                                                            print('here ${passengerInfo.isEmpty}');
+//
+                                                                            return AlertDialog(
+                                                                              title:
+                                                                              Text("You already accepted the request!"),
+                                                                              content: Text(
+                                                                                  "Passenger Info: \n"
+                                                                                  "Name: ${onValue.data['name']}\n"
+                                                                                  "Email: ${onValue.data['email']}\n"
+                                                                                  "Phone: ${onValue.data['phone']}"
+
+                                                                              ),
+                                                                              actions: <Widget>[
+                                                                                FlatButton(
+                                                                                  child: Text("Close"),
+                                                                                  onPressed: () => Navigator.pop(context),
+                                                                                )
+                                                                              ],
+                                                                            );
+                                                                          } else {
+                                                                            return AlertDialog(
+                                                                              title:
+                                                                              Text('Note to passenger:'),
+                                                                              content:
+                                                                              TextField(
+                                                                                controller: _textFieldController,
+                                                                                decoration: InputDecoration(hintText: "Optional"),
+                                                                              ),
+                                                                              actions: <Widget>[
+                                                                                new FlatButton(
+                                                                                  child: new Text('Confirm'),
+                                                                                  onPressed: () {
+                                                                                    Firestore.instance.collection('passengerPickUpData').document(_documentID).updateData({
+                                                                                      'driverID': '${userdata.firebaseuser.email}',
+                                                                                      'rideStatus': 'accept',
+                                                                                      'driverNote': _textFieldController.value.text,
+                                                                                    });
+                                                                                    Navigator.of(context).pop();
+                                                                                  },
+                                                                                )
+                                                                              ],
+                                                                            );
+                                                                          }
+                                                                        });
+                                                                  });
+
+
                                                                 },
                                                               ),
                                                             ),

@@ -23,6 +23,7 @@ class _PassengerState extends State<Passenger> {
   String _date = "Please Choose Your Date";
   String _time = "Please Choose Your Time";
   String driverNameForEachButton;
+  String apiKey;
 
   //Store passenger pick up address
   dynamic passengerAddressValue;
@@ -84,20 +85,28 @@ class _PassengerState extends State<Passenger> {
                       cursorColor: Colors.black,
                       controller: pickUpTextController,
                       onTap: () async {
-                        Prediction p = await PlacesAutocomplete.show(
-                          context: context,
-                          apiKey: 'AIzaSyCKsdwGt1mKCpw4I7KIqRzyWRSEC7uTP34',
-                          language: 'en',
-                          components: [Component(Component.country, "us")],
-                          // ignore: missing_return
-                        ).then((onValue) {
-                          print('Search description ${onValue.description}');
-                          passengerAddressValue = onValue.description;
-
-                          pickUpTextController.text = passengerAddressValue;
-                        }).catchError((onError) {
-                          print('Error on AutoComplete : ${onError}');
+                        Firestore.instance.collection('apiKey').document('placeAPI').get().then((onValue){
+                          apiKey = onValue.data['key'];
+                        }).catchError((onError){
+                          print('error firestore: ${onError}');
                         });
+                        print("apiKey ${apiKey}");
+                        if(apiKey != null) {
+                          Prediction p = await PlacesAutocomplete.show(
+                            context: context,
+                            apiKey: apiKey,
+                            language: 'en',
+                            components: [Component(Component.country, "us")],
+                            // ignore: missing_return
+                          ).then((onValue) {
+                            print('Search description ${onValue.description}');
+                            passengerAddressValue = onValue.description;
+
+                            pickUpTextController.text = passengerAddressValue;
+                          }).catchError((onError) {
+                            print('Error on AutoComplete : ${onError}');
+                          });
+                        }
                       },
                       decoration: InputDecoration(
                         icon: Container(
@@ -300,7 +309,7 @@ class _PassengerState extends State<Passenger> {
                                                                                 Text('Driver Information'),
                                                                             content: Text("Driver Name: ${onValue.data['name']} \n\n"
                                                                                 "Phone Number: ${onValue.data['phone']} \n\n"
-                                                                                "Email: ${onValue.data['email']}"),
+                                                                                "Email: ${onValue.data['email']}\n\n"),
                                                                             actions: <Widget>[
                                                                               new FlatButton(
                                                                                 child: new Text('Close'),
