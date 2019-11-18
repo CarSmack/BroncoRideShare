@@ -2,7 +2,6 @@ import 'package:broncorideshare/utils/geoFireFlutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:provider/provider.dart';
 import 'package:broncorideshare/utils/appState.dart';
@@ -90,7 +89,6 @@ class _PassengerState extends State<Passenger> {
                         }).catchError((onError){
                           print('error firestore: ${onError}');
                         });
-                        print("apiKey ${apiKey}");
                         if(apiKey != null) {
                           Prediction p = await PlacesAutocomplete.show(
                             context: context,

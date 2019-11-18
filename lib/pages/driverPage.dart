@@ -10,7 +10,7 @@ import 'package:broncorideshare/users/UserData.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:google_maps_webservice/places.dart';
-
+import 'package:geoflutterfire/geoflutterfire.dart';
 
 class mainPage extends StatefulWidget {
   @override
@@ -36,15 +36,50 @@ class _googleMapState extends State<googleMap> {
   static bool liveButton = true;
   StreamSubscription<Position> streamSubscription;
 
+  /**
+   * Query Request within 20 miles
+   */
+  Geoflutterfire geo = Geoflutterfire();
+  Firestore _firestore = Firestore.instance;
+  var collectionReference;
+  GeoFirePoint center;
+  String apiKey;
+  dynamic startingDestinationAddress;
+  dynamic pickUpDestinationAddress;
+  dynamic finalDestinationAddress;
 
+  /**
+   * addGooglePlace searching
+   */
+  addGooglePlaceSearching(dynamic destinationAddress,TextEditingController controller) async{
+    Firestore.instance.collection("apiKey").document('placeAPI').get().then((onValue){
+      apiKey = onValue.data['key'];
+    }).catchError((onError){
+      print("error firestore: ${onError}");
+    });
+    if(apiKey != null) {
+      Prediction p = await PlacesAutocomplete.show(
+        context: context,
+        apiKey: apiKey,
+        language: 'en',
+        components: [Component(Component.country, "us")],
+        // ignore: missing_return
+      ).then((onValue) {
+        print('Search description ${onValue.description}');
+        destinationAddress = onValue.description;
 
+        controller.text = destinationAddress;
+      }).catchError((onError) {
+        print('Error on AutoComplete : ${onError}');
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     /*appState is for DI and State Management throuhgout the app with the Class Provider*/
     final appState = Provider.of<AppState>(context);
     final userdata = Provider.of<UserData>(context);
-
 
     /*Debug purpose to check the current position of the user*/
     print("Current position ${appState.lastPosition.toString()}");
@@ -96,6 +131,9 @@ class _googleMapState extends State<googleMap> {
                   child: TextField(
                     cursorColor: Colors.black,
                     controller: appState.locationTextController,
+                    onTap: ()async{
+                      addGooglePlaceSearching(startingDestinationAddress, appState.locationTextController);
+                    },
                     decoration: InputDecoration(
                       icon: Container(
                         margin: EdgeInsets.only(left: 20, top: 5),
@@ -134,6 +172,9 @@ class _googleMapState extends State<googleMap> {
                   child: TextField(
                     cursorColor: Colors.black,
                     controller: appState.pickUpDestinationTextController,
+                    onTap: ()async{
+                      addGooglePlaceSearching(pickUpDestinationAddress, appState.pickUpDestinationTextController);
+                    },
                     textInputAction: TextInputAction.go,
                     onSubmitted: (value) {
                       appState.sendRequest(value);
@@ -176,6 +217,9 @@ class _googleMapState extends State<googleMap> {
                   child: TextField(
                     cursorColor: Colors.black,
                     controller: appState.finalDestinationTextController,
+                    onTap: ()async{
+                      addGooglePlaceSearching(finalDestinationAddress, appState.finalDestinationTextController);
+                    },
                     textInputAction: TextInputAction.go,
                     onSubmitted: (value) {
                       if (appState.finalDestinationTextController != null) {
@@ -211,6 +255,224 @@ class _googleMapState extends State<googleMap> {
                 bottom: 125,
                 child: Column(
                   children: <Widget>[
+                    FloatingActionButton(
+                      child: Icon(Icons.search),
+                      heroTag: 'buttonFind1',
+                      backgroundColor: Colors.white,
+                      splashColor: Colors.blue,
+                      onPressed: () async{
+                        Position position = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+                        center = geo.point(latitude: position.latitude, longitude: position.longitude);
+                        print("position : ${center.latitude}  ${center.longitude}");
+                        showModalBottomSheet(context: context, builder: (context){
+                          return Container(
+                            constraints: BoxConstraints(minHeight: MediaQuery.of(context).size.height),
+                            height: MediaQuery.of(context).size.height,
+                            child: StreamBuilder<List<DocumentSnapshot>>(
+                              stream: geo.collection(collectionRef: Firestore.instance.collection("passengerPickUpData")).within(center: center, radius: 40, field: 'position',strictMode: true),
+                              builder: (BuildContext context, AsyncSnapshot<List<DocumentSnapshot>> snapshot){
+                                if(snapshot.hasError)
+                                  return Text("Error: ${snapshot.error}");
+                                switch (snapshot.connectionState){
+                                  case ConnectionState.waiting:
+                                    return Text("Loading ...");
+                                  default:
+                                    return ListView(
+                                      children: snapshot.data.where((test){
+                                        if (test.data['rideStatus'] ==
+                                            'pending' &&
+                                            test.data['username'] !=
+                                                userdata.firebaseuser.email)
+                                          return true;
+                                        else if (test.data['driverID'] ==
+                                            userdata
+                                                .firebaseuser.email &&
+                                            test.data['rideStatus'] ==
+                                                'accept')
+                                          return true;
+                                        else
+                                          return false;
+                                      }).map((DocumentSnapshot document){
+                                        return Card(
+                                          child: ExpansionTile(
+                                            title: Text("${document['username']} (${document['rideStatus']})",style: TextStyle(color: Colors.black)),
+                                            trailing: Icon(Icons.more_vert, color: Colors.black),
+                                            children: <Widget>[
+                                              FlatButton(
+                                                child: Column(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  children: <Widget>[
+                                                    Column(
+                                                      children: <Widget>[
+                                                        Text(
+                                                            'Address: ${document['address']}'),
+                                                        Text(
+                                                            'Date: ${document['date']}'),
+                                                        Text(
+                                                            'Time: ${document['time']}'),
+                                                      ],
+                                                    ),
+                                                    Row(
+                                                      children: <Widget>[
+                                                        Expanded(
+                                                          child:
+                                                          RaisedButton(
+                                                            child: Text(
+                                                                "See On Map"),
+                                                            onPressed: () {
+//
+                                                              GeoPoint
+                                                              passengerLatLng =
+                                                              document[
+                                                              'position']
+                                                              [
+                                                              'geopoint'];
+                                                              print(
+                                                                  '${passengerLatLng.latitude}  : ${passengerLatLng.longitude}');
+                                                              appState.addMarker(
+                                                                  LatLng(
+                                                                      passengerLatLng
+                                                                          .latitude,
+                                                                      passengerLatLng
+                                                                          .longitude),
+                                                                  document[
+                                                                  'address']);
+                                                              Navigator.pop(
+                                                                  context);
+                                                            },
+                                                          ),
+                                                        ),
+                                                        Expanded(
+                                                          child:
+                                                          RaisedButton(
+                                                            child: Text(
+                                                                "Accept"),
+                                                            onPressed: () {
+                                                              String
+                                                              _documentID =
+                                                                  document
+                                                                      .documentID;
+                                                              TextEditingController
+                                                              _textFieldController =
+                                                              TextEditingController();
+                                                              Firestore
+                                                                  .instance
+                                                                  .collection(
+                                                                  'users')
+                                                                  .document(
+                                                                  '${document['username']}')
+                                                                  .get()
+                                                                  .then(
+                                                                      (onValue) {
+                                                                    showDialog(
+                                                                        context:
+                                                                        context,
+                                                                        builder:
+                                                                            (context) {
+                                                                          if (document['rideStatus'] ==
+                                                                              'accept') {
+                                                                            return AlertDialog(
+                                                                              title: Text("You already accepted the request!"),
+                                                                              content: Text("Passenger Info: \n"
+                                                                                  "Name: ${onValue.data['name']}\n"
+                                                                                  "Email: ${onValue.data['email']}\n"
+                                                                                  "Phone: ${onValue.data['phone']}"),
+                                                                              actions: <Widget>[
+                                                                                FlatButton(
+                                                                                  child: Text("Close"),
+                                                                                  onPressed: () => Navigator.pop(context),
+                                                                                )
+                                                                              ],
+                                                                            );
+                                                                          } else {
+                                                                            return AlertDialog(
+                                                                              title: Text('Note to passenger:'),
+                                                                              content: TextField(
+                                                                                controller: _textFieldController,
+                                                                                decoration: InputDecoration(hintText: "Optional"),
+                                                                              ),
+                                                                              actions: <Widget>[
+                                                                                new FlatButton(
+                                                                                  child: new Text('Confirm'),
+                                                                                  onPressed: () {
+                                                                                    Firestore.instance.collection('passengerPickUpData').document(_documentID).updateData({
+                                                                                      'driverID': '${userdata.firebaseuser.email}',
+                                                                                      'rideStatus': 'accept',
+                                                                                      'driverNote': _textFieldController.value.text,
+                                                                                    });
+                                                                                    Navigator.of(context).pop();
+                                                                                  },
+                                                                                )
+                                                                              ],
+                                                                            );
+                                                                          }
+                                                                        });
+                                                                  });
+                                                            },
+                                                          ),
+                                                        ),
+                                                        Expanded(
+                                                          child:
+                                                          RaisedButton(
+                                                            child: Text(
+                                                                'Get Direction'),
+                                                            onPressed: () {
+                                                              appState.pickUpDestinationTextController
+                                                                  .text =
+                                                              document[
+                                                              'address'];
+                                                              Navigator.pop(
+                                                                  context);
+                                                              appState.sendRequest(
+                                                                  '${document['address']}');
+                                                              appState.finalDestinationTextController
+                                                                  .text =
+                                                              "Cal Poly Pomona";
+                                                              appState.sendRequestFromPickUpLocationToFinalDestination(
+                                                                  document[
+                                                                  'address'],
+                                                                  appState
+                                                                      .finalDestinationTextController
+                                                                      .text);
+//                                                              appState.mapController.moveCamera(CameraUpdate.zoomOut());
+                                                            },
+                                                          ),
+                                                        )
+                                                      ],
+                                                    )
+                                                  ],
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        );
+                                      }).toList(),
+                                    );
+                                }
+
+                              },
+                            ),
+                          );
+                        });
+//                        showModalBottomSheet(
+//                            context: context,
+//                            builder: (context) {
+//                              return Container(
+//                                constraints: BoxConstraints(
+//                                    minHeight:
+//                                    MediaQuery.of(context).size.height),
+//                                height: MediaQuery.of(context).size.height,
+//                                child: StreamBuilder<List<DocumentSnapshot>>(
+////                                  stream: geo.collection(collectionRef: collectionReference)
+////                                      .within(center: center, radius: radius, field: field),
+//                                ),
+//                              );
+//                            });
+                      },
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
                     FloatingActionButton(
                       child: Icon(Icons.clear),
                       heroTag: 'clearRoute',
@@ -348,7 +610,8 @@ class _googleMapState extends State<googleMap> {
                                                                               .longitude),
                                                                       document[
                                                                           'address']);
-                                                                  Navigator.pop(context);
+                                                                  Navigator.pop(
+                                                                      context);
                                                                 },
                                                               ),
                                                             ),
@@ -365,37 +628,28 @@ class _googleMapState extends State<googleMap> {
                                                                   TextEditingController
                                                                       _textFieldController =
                                                                       TextEditingController();
-                                                                  Firestore.instance.collection('users').document('${document['username']}').get().then((onValue){
+                                                                  Firestore
+                                                                      .instance
+                                                                      .collection(
+                                                                          'users')
+                                                                      .document(
+                                                                          '${document['username']}')
+                                                                      .get()
+                                                                      .then(
+                                                                          (onValue) {
                                                                     showDialog(
                                                                         context:
-                                                                        context,
+                                                                            context,
                                                                         builder:
                                                                             (context) {
-
                                                                           if (document['rideStatus'] ==
                                                                               'accept') {
-
-
-//                                                                            Firestore.instance.collection('users').document('${document['username']}').get().then((onValue){
-//                                                                              print("${onValue.data['phone']}");
-//                                                                              print("${onValue.data['name']}");
-//                                                                              print("${onValue.data['email']}");
-//                                                                              passengerInfo.add(onValue.data['phone']);
-//                                                                              print('${passengerInfo.isEmpty}');
-//
-//                                                                            });
-//                                                                            print('here ${passengerInfo.isEmpty}');
-//
                                                                             return AlertDialog(
-                                                                              title:
-                                                                              Text("You already accepted the request!"),
-                                                                              content: Text(
-                                                                                  "Passenger Info: \n"
+                                                                              title: Text("You already accepted the request!"),
+                                                                              content: Text("Passenger Info: \n"
                                                                                   "Name: ${onValue.data['name']}\n"
                                                                                   "Email: ${onValue.data['email']}\n"
-                                                                                  "Phone: ${onValue.data['phone']}"
-
-                                                                              ),
+                                                                                  "Phone: ${onValue.data['phone']}"),
                                                                               actions: <Widget>[
                                                                                 FlatButton(
                                                                                   child: Text("Close"),
@@ -405,10 +659,8 @@ class _googleMapState extends State<googleMap> {
                                                                             );
                                                                           } else {
                                                                             return AlertDialog(
-                                                                              title:
-                                                                              Text('Note to passenger:'),
-                                                                              content:
-                                                                              TextField(
+                                                                              title: Text('Note to passenger:'),
+                                                                              content: TextField(
                                                                                 controller: _textFieldController,
                                                                                 decoration: InputDecoration(hintText: "Optional"),
                                                                               ),
@@ -429,8 +681,6 @@ class _googleMapState extends State<googleMap> {
                                                                           }
                                                                         });
                                                                   });
-
-
                                                                 },
                                                               ),
                                                             ),
