@@ -14,18 +14,17 @@ class formCardSignUp extends StatefulWidget {
   dynamic keyFullName = GlobalKey<FormFieldState>();
 
   dynamic keyPhone = GlobalKey<FormFieldState>();
-   String _email, _password,_address,_phoneNum, _fullName ;
+  String _email, _password, _address, _phoneNum, _fullName;
   //Constructor-----------
-  formCardSignUp(this.keyEmail,this.keyPassword,this.keyAddress,this.keyPhone,this.keyFullName);
+  formCardSignUp(this.keyEmail, this.keyPassword, this.keyAddress,
+      this.keyPhone, this.keyFullName);
   //this is made when Formcard does not need to return formfieldstate
 
   @override
   _formCardSignUpState createState() => _formCardSignUpState();
 }
 
-
 class _formCardSignUpState extends State<formCardSignUp> {
-
   @override
   Widget build(BuildContext context) {
     return new Container(
@@ -51,9 +50,9 @@ class _formCardSignUpState extends State<formCardSignUp> {
           children: <Widget>[
             Center(
               child: Text("Please fill in the following information :",
-              style: TextStyle(
-                  fontFamily: "Poppins-Medium",
-                  fontSize: ScreenUtil.getInstance().setSp(26))),
+                  style: TextStyle(
+                      fontFamily: "Poppins-Medium",
+                      fontSize: ScreenUtil.getInstance().setSp(26))),
             ),
             SizedBox(
               height: ScreenUtil.getInstance().setHeight(30),
@@ -64,13 +63,9 @@ class _formCardSignUpState extends State<formCardSignUp> {
                     fontSize: ScreenUtil.getInstance().setSp(26))),
             TextFormField(
               key: widget.keyFullName,
-
               keyboardType: TextInputType.text,
-
               onSaved: (String value) {
-
-                widget._fullName= value;
-
+                widget._fullName = value;
               },
               decoration: InputDecoration(
                   hintText: "John Doe",
@@ -92,7 +87,7 @@ class _formCardSignUpState extends State<formCardSignUp> {
               },
               onSaved: (String value) {
 //                email = value;
-                  widget._email = value;
+                widget._email = value;
               },
               keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
@@ -116,10 +111,8 @@ class _formCardSignUpState extends State<formCardSignUp> {
                     : 'Password should be more than 6 character';
               },
               onSaved: (String value) {
-
-                 widget._password = value;
+                widget._password = value;
 //                    widget.setPass(value);
-
               },
               decoration: InputDecoration(
                   hintText: "Password",
@@ -134,13 +127,9 @@ class _formCardSignUpState extends State<formCardSignUp> {
                     fontSize: ScreenUtil.getInstance().setSp(26))),
             TextFormField(
               key: widget.keyAddress,
-
               keyboardType: TextInputType.multiline,
-
               onSaved: (String value) {
-
-                widget._address= value;
-
+                widget._address = value;
               },
               decoration: InputDecoration(
                   hintText: "3801 W Temple Ave, Pomona, CA 91768",
@@ -156,18 +145,13 @@ class _formCardSignUpState extends State<formCardSignUp> {
             TextFormField(
               key: widget.keyPhone,
               keyboardType: TextInputType.phone,
-
               onSaved: (String value) {
-
-                widget._phoneNum= value;
-
+                widget._phoneNum = value;
               },
               decoration: InputDecoration(
                   hintText: "213-123-3123",
                   hintStyle: TextStyle(color: Colors.grey, fontSize: 12.0)),
             ),
-
-
           ],
         ),
       ),

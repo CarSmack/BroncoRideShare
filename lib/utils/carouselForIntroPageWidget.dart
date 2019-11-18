@@ -8,9 +8,9 @@ class Carousel extends StatefulWidget {
 
   Carousel(
       {this.title,
-        this.content,
-        this.imageIcon,
-        this.imagecolor = Colors.redAccent});
+      this.content,
+      this.imageIcon,
+      this.imagecolor = Colors.redAccent});
 
   @override
   CarouselState createState() {
@@ -58,7 +58,7 @@ class CarouselState extends State<Carousel>
           children: <Widget>[
             new Transform(
               transform:
-              new Matrix4.translationValues(animation.value, 0.0, 0.0),
+                  new Matrix4.translationValues(animation.value, 0.0, 0.0),
               child: new Text(
                 widget.title,
                 style: TextStyle(
@@ -69,7 +69,7 @@ class CarouselState extends State<Carousel>
             ),
             new Transform(
               transform:
-              new Matrix4.translationValues(animation.value, 0.0, 0.0),
+                  new Matrix4.translationValues(animation.value, 0.0, 0.0),
               child: new Text(widget.content,
                   softWrap: true,
                   textAlign: TextAlign.center,

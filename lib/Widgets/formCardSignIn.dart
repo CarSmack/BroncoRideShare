@@ -7,12 +7,12 @@ class formCardSignIn extends StatefulWidget {
   // dynamic was use rather than final to set a parameter for Formcart to grab Formfieldstate to implement validate() whenever call the Class
   dynamic formfieldkey_email = GlobalKey<FormFieldState>();
   dynamic formfieldkey_password = GlobalKey<FormFieldState>();
-  String _email,_password;
+  String _email, _password;
   //Constructor-----------
-  formCardSignIn(this.formfieldkey_email,this.formfieldkey_password);
+  formCardSignIn(this.formfieldkey_email, this.formfieldkey_password);
   //this is made when Formcard does not need to return formfieldstate
-  formCardSignIn.register(this._email,this._password);
-   //  FormCard(formfieldkey)
+  formCardSignIn.register(this._email, this._password);
+  //  FormCard(formfieldkey)
   // --------------
 
   @override
@@ -20,9 +20,6 @@ class formCardSignIn extends StatefulWidget {
 }
 
 class _formCardSignInState extends State<formCardSignIn> {
-
-
-
   @override
   Widget build(BuildContext context) {
     return new Container(
@@ -59,9 +56,11 @@ class _formCardSignInState extends State<formCardSignIn> {
                     fontFamily: "Poppins-Medium",
                     fontSize: ScreenUtil.getInstance().setSp(26))),
             TextFormField(
-              key:widget.formfieldkey_email ,
+              key: widget.formfieldkey_email,
               validator: (String value) {
-                return value.contains('@cpp.edu') ? null : 'Please use cpp email for Login';
+                return value.contains('@cpp.edu')
+                    ? null
+                    : 'Please use cpp email for Login';
               },
               onSaved: (value) => widget._email = value.trim(),
               keyboardType: TextInputType.emailAddress,
@@ -80,8 +79,10 @@ class _formCardSignInState extends State<formCardSignIn> {
               key: widget.formfieldkey_password,
               obscureText: true,
               keyboardType: TextInputType.visiblePassword,
-              validator: (String value){
-                return value.length > 6 ? null : 'Password should be more than 6 character';
+              validator: (String value) {
+                return value.length > 6
+                    ? null
+                    : 'Password should be more than 6 character';
               },
               onSaved: (value) => widget._password = value.trim(),
               decoration: InputDecoration(
