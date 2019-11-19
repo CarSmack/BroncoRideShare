@@ -153,6 +153,9 @@ p {
 /* Footer Section */
 .social-icon {
   margin: 20px 20px;
+  text-align: center;
+
+
 }
 
 /* @media <type> <feature> */
