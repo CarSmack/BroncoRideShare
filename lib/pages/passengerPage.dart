@@ -37,10 +37,32 @@ class _PassengerState extends State<Passenger> {
     //build start
     return appState.initialPosition == null
         ? Container(
+            color: Colors.black,
             alignment: Alignment.center,
+
             child: Center(
-              child: CircularProgressIndicator(
-                backgroundColor: Colors.blueGrey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  CircularProgressIndicator(
+                    backgroundColor: Colors.black,
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    "Please Make Sure You Enable Your Location for Google Map Services:\n"
+                        "For iOS : \nGo to Setting -> Privacy -> Location Services -> broncorideshare -> Enable \"While Using the App\" or \"Always\"\n"
+                        "",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                      decoration: TextDecoration.none,
+                      fontWeight: FontWeight.normal,
+
+                    ),
+                  ),
+                ],
               ),
             ),
           )
