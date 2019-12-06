@@ -11,7 +11,7 @@ Cross platform ridesharing mobile application for Cal Poly Pomona Students
 
 | Member Name  | Role |
 | ------------- | ------------- |
-| Sophadeth Rithya  | Team Lead | Full-stack developer  |
+| Sophadeth Rithya  | Full-stack developer  |
 | Dhairya Barot  | Backend Developer  |
 | Mateusz Murawski  | Backend Developer  |
 | Yohanna Tesfay  | Frontend Developer  |
@@ -19,4 +19,4 @@ Cross platform ridesharing mobile application for Cal Poly Pomona Students
 
 ## Screenshot of Our App
 
-![Image of App](https://livecsupomona-my.sharepoint.com/:i:/g/personal/srithya_cpp_edu/EZ9F18LSIG1EqsOZyIDDZGsBO3I--hs9X1m2rHoJAC3GuA?e=43Likg)
+![Image of App](https://drive.google.com/file/d/1yPDIRTOKiniYkkXlN5Jwf5ZcDhe7JhzP/view?usp=sharing)
