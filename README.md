@@ -19,4 +19,8 @@ Cross platform ridesharing mobile application for Cal Poly Pomona Students
 
 ## Screenshot of Our App
 
-![Image of App](https://drive.google.com/file/d/1yPDIRTOKiniYkkXlN5Jwf5ZcDhe7JhzP/view?usp=sharing)
+<img src="https://github.com/CarSmack/BroncoRideShare/blob/master/Screenshot/IMG_6261.PNG" width="300" height ="600"><img src="https://github.com/CarSmack/BroncoRideShare/blob/master/Screenshot/IMG_6266.PNG" width="300" height ="600"><img src="https://github.com/CarSmack/BroncoRideShare/blob/master/Screenshot/IMG_6268.PNG" width="300" height ="600"><img src="https://github.com/CarSmack/BroncoRideShare/blob/master/Screenshot/IMG_6269.PNG" width="300" height ="600"><img src="https://github.com/CarSmack/BroncoRideShare/blob/master/Screenshot/IMG_6275.PNG" width="300" height ="600">
+
+<a href="https://docs.google.com/presentation/d/1SImrxtVezDKsgWdC8qx0Se5PKtzpnVThvYUAkJaeTsE/edit?usp=sharing"> Demo Slide </a>
+
+<a href="https://www.broncorideshare.com">Official Website</a>
