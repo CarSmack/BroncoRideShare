@@ -4,11 +4,12 @@
     border-radius: 50%;
     overflow: hidden;
 
-
     margin-top: -25px;
     margin-left: 5px;
 }
-
+a.nav-link{
+    font-size: 2rem;
+}
 
 
 body {
@@ -31,6 +32,7 @@ p {
   font-family: "Josefin Slab";
   font-size: 3.5rem;
   line-height: 1.5;
+  font-weight: bold;
 }
 
 .section-heading {
@@ -40,7 +42,7 @@ p {
 
 /* Containers */
 .container-fluid {
-  padding: 0% 0% 0%;
+  padding: 3% 15%;
 }
 
 /* Sections */
@@ -70,9 +72,8 @@ p {
 }
 
 .nav-link {
-  font-size: 2rem;
+  font-size: 1.2rem;
   font-family: "Josefin Slab";
-  margin-top: -75px
 }
 
 /* Buttons */
@@ -151,11 +152,13 @@ p {
 
 /* CTA Section */
 /* Footer Section */
+#footer {
+    text-align: center;
+    padding: 7% 15%;
+}
 .social-icon {
-  margin: 20px 20px;
+  margin: 30px 30px;
   text-align: center;
-
-
 }
 
 /* @media <type> <feature> */

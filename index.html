@@ -1,45 +1,25 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta charset="utf-8">
   <title>Bronco Rideshare</title>
 
-  <!-- Google Fonts -->
- <link href="https://fonts.googleapis.com/css?family=Josefin+Slab|Ubuntu" rel="stylesheet">
-  <!-- CSS Stylesheets -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  <link rel="stylesheet" href="css/styles.css">
 
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/styles.css">
+  <link href="https://fonts.googleapis.com/css?family=Josefin+Slab|Ubuntu" rel="stylesheet">
   <!-- Font Awesome -->
   <script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
 
-  <!-- Bootstrap Scripts -->
-
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
-
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <style>
-        #footer{
-        justify-content: space-around;
-        text-align: center;
-
-        }
-
-
-    </style>
-    <script>
-
-        function appDownload() {
-         window.location = "https://apps.apple.com/us/app/bronco-rideshare/id1488201747?ls=1";
-
-}
-    </script>
+  <script>
+    function appDownload() {
+      window.location = "https://apps.apple.com/us/app/bronco-rideshare/id1488201747?ls=1";
+    }
+  </script>
 </head>
 
 <body>
@@ -51,30 +31,23 @@
       <!-- Nav Bar -->
 
       <nav class="navbar navbar-expand-lg navbar-dark">
+        <a class="navbar-brand" href="/"><span class="d-none">Bronco|Rideshare</span>
+          <img src="images/lfinal.png" class="img-fluid logo-image">
+        </a>
 
-        <a class="navbar-brand" href="">Bronco|Rideshare</a>
-
-        <a class="navbar-brand" href="/">
-       <div class="logo-image">
-            <img src="images/lfinal.png" class="img-fluid">
-        </div>
-      </a>
-
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler"
+          aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-
+        <div class="collapse navbar-collapse" id="navbarToggler">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
               <a class="nav-link" href="#footer">Links</a>
             </li>
-
             <li class="nav-item">
               <a class="nav-link" href="#features">Features</a>
             </li>
-
             <li class="nav-item">
               <a class="nav-link" href="#cta">Download</a>
             </li>
@@ -90,7 +63,7 @@
 
         <div class="col-lg-6">
           <h1 class="big-heading">Find rides to campus from fellow students in your area.</h1>
-          <button type="button" class="btn btn-dark btn-lg download-button downloadRequest" onclick="appDownload()" ><i class="fab fa-apple"></i> Download</button>
+          <button type="button" class="btn btn-dark btn-lg download-button downloadRequest" onclick="appDownload()"><i class="fab fa-apple"></i> Download</button>
           <button type="button" class="btn btn-outline-light btn-lg download-button downloadRequest" onclick="appDownload()"><i class="fab fa-google-play"></i> Download</button>
         </div>
 
@@ -141,21 +114,21 @@
       <div class="carousel-inner">
         <div class="carousel-item active container-fluid">
           <img class="testimonial-image" src="images/iphone6.png" alt="dog-profile">
-            <h2 class ="text-dark">Google Maps API provides a smart and reliable mapping service for carpooling</h2>
+          <h2 class="text-dark">Google Maps API provides a smart and reliable mapping service for carpooling</h2>
 
         </div>
-        
+
 
         <div class="carousel-item container-fluid">
           <img class="testimonial-image" src="images/image2.png" alt="lady-profile">
-            <h2 class ="text-dark">Choose to be the driver or passenger. Simple and distraction-free UI for on-the-go use</h2>
+          <h2 class="text-dark">Choose to be the driver or passenger. Simple and distraction-free UI for on-the-go use</h2>
 
         </div>
 
 
         <div class="carousel-item container-fluid">
           <img class="testimonial-image" src="images/image4.png" alt="lady-profile">
-            <h2 class ="text-dark">Signing up just requires your name, phone number, location, and @CPP email address</h2>
+          <h2 class="text-dark">Signing up just requires your name, phone number, location, and @CPP email address</h2>
 
         </div>
       </div>
@@ -181,161 +154,181 @@
 
       <h3 class="big-heading">Start your safe and easy commute to school today.</h3>
       <button class="download-button btn btn-lg btn-dark" type="button" onclick="appDownload()"><i class="fab fa-apple"></i> Download</button>
-      <button class="download-button btn btn-lg brn-light" type="button" onclick="appDownload()"><i class="fab fa-google-play"></i> Download</button>
+      <button class="download-button btn btn-lg btn-outline-light" type="button" onclick="appDownload()"><i class="fab fa-google-play"></i> Download</button>
     </div>
   </section>
 
 
-<!-- Team -->
-<section id="team" class="pb-5">
+  <!-- Team -->
+  <section id="team" class="pb-5">
     <div class="container">
-        <h5 class="section-title h1">OUR TEAM</h5>
-        <div class="row">
-            <!-- Team member -->
-            <div class="col-xs-12 col-sm-6 col-md-4">
-                <div class="image-flip" ontouchstart="this.classList.toggle('hover');">
-                    <div class="mainflip">
-                        <div class="frontside">
-                            <div class="card">
-                                <div class="card-body text-center">
-                                    <p><img class=" img-fluid" src="images/henry.jpg" alt="card image"></p>
-                                    <h4 class="card-title">Sophadeth Rithya</h4>
-                                    <p class="card-text">Lead-Developer/Project Manager.</p>
-                                    <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="backside">
-                            <div class="card">
-                                <div class="card-body text-center mt-4">
-                                    <h4 class="card-title">About</h4>
-                                    <p class="card-text">Senior Computer Science Student at Cal Poly Pomona.<br> I love to build app and learn more about new Technology. Feel free to connect with me at: srithya@cpp.edu or my <a href="https://www.linkedin.com/in/sophadethrithya/">LinkedIn account</a></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+      <h5 class="section-title h1">OUR TEAM</h5>
+      <div class="row">
+        <!-- Team member -->
+        <div class="col-xs-12 col-sm-6 col-md-4">
+          <div class="image-flip" ontouchstart="this.classList.toggle('hover');">
+            <div class="mainflip">
+              <div class="frontside">
+                <div class="card">
+                  <div class="card-body text-center">
+                    <p><img class=" img-fluid" src="images/henry.jpg" alt="card image"></p>
+                    <h4 class="card-title">Sophadeth Rithya</h4>
+                    <p class="card-text">Lead-Developer/Project Manager.</p>
+                    <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i></a>
+                  </div>
                 </div>
-            </div>
-            <!-- ./Team member -->
-             <!-- Team member -->
-            <div class="col-xs-12 col-sm-6 col-md-4">
-                <div class="image-flip" ontouchstart="this.classList.toggle('hover');">
-                    <div class="mainflip">
-                        <div class="frontside">
-                            <div class="card">
-                                <div class="card-body text-center">
-                                    <p><img class=" img-fluid" src="images/dhar.jpg" alt="card image"></p>
-                                    <h4 class="card-title">Dhairya Barot</h4>
-                                    <p class="card-text">Backend developer.</p>
-                                    <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="backside">
-                            <div class="card">
-                                <div class="card-body text-center mt-4">
-                                    <h4 class="card-title">About</h4>
-                                    <p class="card-text">Computer Science Student At Cal Poly Pomona</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+              </div>
+              <div class="backside">
+                <div class="card">
+                  <div class="card-body text-center mt-4">
+                    <h4 class="card-title">About</h4>
+                    <p class="card-text">Senior Computer Science Student at Cal Poly Pomona.<br> I love to build app and learn more about new Technology. Feel free to connect with me at: srithya@cpp.edu or my <a
+                        href="https://www.linkedin.com/in/sophadethrithya/">LinkedIn account</a></p>
+                  </div>
                 </div>
+              </div>
             </div>
-            <!-- ./Team member -->
-            <!-- Team member -->
-            <div class="col-xs-12 col-sm-6 col-md-4">
-                <div class="image-flip" ontouchstart="this.classList.toggle('hover');">
-                    <div class="mainflip">
-                        <div class="frontside">
-                            <div class="card">
-                                <div class="card-body text-center">
-                                    <p><img class=" img-fluid" src="images/matt.jpg" alt="card image"></p>
-                                    <h4 class="card-title">Mateusz Murawski</h4>
-                                    <p class="card-text">Backend Developer</p>
-                                    <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="backside">
-                            <div class="card">
-                                <div class="card-body text-center mt-4">
-                                    <h4 class="card-title">About</h4>
-                                    <p class="card-text">Computer Science Student At Cal Poly Pomona</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- ./Team member -->
-
-            <!-- Team member -->
-            <div class="col-xs-12 col-sm-6 col-md-4">
-                <div class="image-flip" ontouchstart="this.classList.toggle('hover');">
-                    <div class="mainflip">
-                        <div class="frontside">
-                            <div class="card">
-                                <div class="card-body text-center">
-                                    <p><img class=" img-fluid" src="images/yoh.jpg" alt="card image"></p>
-                                    <h4 class="card-title">Yohanna Tesfay</h4>
-                                    <p class="card-text">Lead Frontend Developer.</p>
-                                    <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="backside">
-                            <div class="card">
-                                <div class="card-body text-center mt-4">
-                                    <h4 class="card-title">About</h4>
-                                    <p class="card-text">Student @Cal Poly Pomona Majoring in Computer science. I like making stuff</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- ./Team member -->
-           
-            <!-- Team member -->
-            <div class="col-xs-12 col-sm-6 col-md-4">
-                <div class="image-flip" ontouchstart="this.classList.toggle('hover');">
-                    <div class="mainflip">
-                        <div class="frontside">
-                            <div class="card">
-                                <div class="card-body text-center">
-                                    <p><img class=" img-fluid" src="images/dave.jpg" alt="card image"></p>
-                                    <h4 class="card-title">David Brown</h4>
-                                    <p class="card-text">Frontend Developer</p>
-                                    <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="backside">
-                            <div class="card">
-                                <div class="card-body text-center mt-4">
-                                    <h4 class="card-title">About</h4>
-                                    <p class="card-text">Computer Science Student At Cal Poly Pomona</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- ./Team member -->
-
+          </div>
         </div>
+        <!-- ./Team member -->
+        <!-- Team member -->
+        <div class="col-xs-12 col-sm-6 col-md-4">
+          <div class="image-flip" ontouchstart="this.classList.toggle('hover');">
+            <div class="mainflip">
+              <div class="frontside">
+                <div class="card">
+                  <div class="card-body text-center">
+                    <p><img class=" img-fluid" src="images/dhar.jpg" alt="card image"></p>
+                    <h4 class="card-title">Dhairya Barot</h4>
+                    <p class="card-text">Backend developer.</p>
+                    <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="backside">
+                <div class="card">
+                  <div class="card-body text-center mt-4">
+                    <h4 class="card-title">About</h4>
+                    <p class="card-text">Computer Science Student At Cal Poly Pomona</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- ./Team member -->
+        <!-- Team member -->
+        <div class="col-xs-12 col-sm-6 col-md-4">
+          <div class="image-flip" ontouchstart="this.classList.toggle('hover');">
+            <div class="mainflip">
+              <div class="frontside">
+                <div class="card">
+                  <div class="card-body text-center">
+                    <p><img class=" img-fluid" src="images/matt.jpg" alt="card image"></p>
+                    <h4 class="card-title">Mateusz Murawski</h4>
+                    <p class="card-text">Backend Developer</p>
+                    <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="backside">
+                <div class="card">
+                  <div class="card-body text-center mt-4">
+                    <h4 class="card-title">About</h4>
+                    <p class="card-text">Computer Science Student At Cal Poly Pomona</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- ./Team member -->
+
+        <!-- Team member -->
+        <div class="col-xs-12 col-sm-6 col-md-4">
+          <div class="image-flip" ontouchstart="this.classList.toggle('hover');">
+            <div class="mainflip">
+              <div class="frontside">
+                <div class="card">
+                  <div class="card-body text-center">
+                    <p><img class=" img-fluid" src="images/yoh.jpg" alt="card image"></p>
+                    <h4 class="card-title">Yohanna Tesfay</h4>
+                    <p class="card-text">Lead Frontend Developer.</p>
+                    <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="backside">
+                <div class="card">
+                  <div class="card-body text-center mt-4">
+                    <h4 class="card-title">About</h4>
+                    <p class="card-text">Student @Cal Poly Pomona Majoring in Computer science. I like making stuff</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- ./Team member -->
+
+        <!-- Team member -->
+        <div class="col-xs-12 col-sm-6 col-md-4">
+          <div class="image-flip" ontouchstart="this.classList.toggle('hover');">
+            <div class="mainflip">
+              <div class="frontside">
+                <div class="card">
+                  <div class="card-body text-center">
+                    <p><img class=" img-fluid" src="images/dave.jpg" alt="card image"></p>
+                    <h4 class="card-title">David Brown</h4>
+                    <p class="card-text">Frontend Developer</p>
+                    <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="backside">
+                <div class="card">
+                  <div class="card-body text-center mt-4">
+                    <h4 class="card-title">About</h4>
+                    <p class="card-text">Computer Science Student At Cal Poly Pomona</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- ./Team member -->
+
+      </div>
     </div>
-</section>
-<!-- Team -->
+  </section>
+  <!-- Team -->
 
   <!-- Footer -->
 
-  <footer class="white-section nav" id="footer">
-      <a href="https://github.com/CarSmack"><i class="social-icon fab fa-github fa-5x"></i><p >Github</p></a>
-      <a href="https://discord.gg/pbC2J8b"><i class="social-icon fab fa-discord fa-5x"></i><p>Discord</p></a>
-      <a href="https://docs.google.com/presentation/d/1SImrxtVezDKsgWdC8qx0Se5PKtzpnVThvYUAkJaeTsE/edit?usp=sharing"><i class="social-icon fab fa-slideshare fa-5x"></i><p>Presentation Slide</p></a>
+  <footer class="container  " id="footer">
+    <div class="row justify-content-center">
+      <a href="https://github.com/CarSmack"><i class="social-icon fab fa-github fa-3x"></i>
+        <p>Github</p>
+      </a>
+      <a href="https://discord.gg/pbC2J8b"><i class="social-icon fab fa-discord fa-3x"></i>
+        <p>Discord</p>
+      </a>
+      <a href="https://docs.google.com/presentation/d/1SImrxtVezDKsgWdC8qx0Se5PKtzpnVThvYUAkJaeTsE/edit?usp=sharing"><i class="social-icon fab fa-slideshare fa-3x"></i>
+        <p>Slide</p>
+      </a>
+    </div>
+    <p>© Copyright 2019 CarSmack</p>
+
   </footer>
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+  </script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
+  </script>
 
 
 </body>
